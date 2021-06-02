@@ -13,7 +13,8 @@
       title="Câmpus"
       icon="puzzle"
     >
-      <listar-campus />
+      <editar-campus v-if="editing" :campus="currentCampus" />
+      <listar-campus v-else @editCampus="editCampus" />
     </card-component>
   </div>
 </template>
@@ -24,14 +25,27 @@ import TitleBar from "@/components/templates/TitleBar";
 import CardComponent from "@/components/templates/CardComponent";
 
 import ListarCampus from "@/components/campus/ListarCampus";
+import EditarCampus from "@/components/campus/EditarCampus";
 
 export default {
   auth: false,
-  components: { ListarCampus, TitleBar, HeroBar, CardComponent },
-
+  components: { TitleBar, HeroBar, CardComponent, EditarCampus, ListarCampus },
+  data() {
+    return {
+      editing: false,
+      currentCampus: {},
+    };
+  },
   computed: {
     titleStack() {
       return ["Admin", "Listagem de Campus"];
+    },
+  },
+  methods: {
+    editCampus(campus) {
+      this.editing = true;
+      this.currentCampus = campus;
+      // alert(campus.general_director);
     },
   },
 };
