@@ -4,6 +4,7 @@
       &.has-aside-expanded {
         nav.navbar,
         body {
+          background-color: $bg-color;
           padding-left: $aside-width;
         }
       }

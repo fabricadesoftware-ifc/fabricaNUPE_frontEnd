@@ -1,11 +1,14 @@
 table.table {
+  background-color: $bg-color;
   thead {
     th {
       border-bottom-width: 1px;
     }
   }
 
-  td, th {
+  td,
+  th {
+    border-bottom: 2px solid #dddddd;
     &.checkbox-cell {
       .b-checkbox.checkbox:not(.button) {
         margin-right: 0;
@@ -50,10 +53,10 @@ table.table {
     padding-right: $card-content-padding;
     margin: 0;
     border-top: $base-color-light;
-    background: $notification-background-color;
+    background: $bg-color;
 
     .pagination-link {
-      background: $button-background-color;
+      background: #e6f2e8;
       color: $button-color;
       border-color: $button-border-color;
 
@@ -62,7 +65,9 @@ table.table {
       }
     }
 
-    .pagination-previous, .pagination-next, .pagination-link {
+    .pagination-previous,
+    .pagination-next,
+    .pagination-link {
       border-color: $button-border-color;
       color: $base-color;
 
@@ -71,6 +76,10 @@ table.table {
       }
     }
   }
+}
+
+table.table:hover {
+  background-color: rgba(10, 10, 10, 0.1);
 }
 
 @include mobile {
@@ -87,24 +96,25 @@ table.table {
     &.has-mobile-sort-spaced {
       .b-table {
         .field.table-mobile-sort {
-          padding-top: $default-padding * .5;
+          padding-top: $default-padding * 0.5;
         }
       }
     }
   }
   .b-table {
     .field.table-mobile-sort {
-      padding: 0 $default-padding * .5;
+      padding: 0 $default-padding * 0.5;
     }
 
     .table-wrapper.has-mobile-cards {
       tr {
         box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
-        margin-bottom: 3px!important;
+        margin-bottom: 3px !important;
       }
       td {
         &.is-progress-col {
-          span, progress {
+          span,
+          progress {
             display: flex;
             width: 45%;
             align-items: center;
@@ -112,11 +122,13 @@ table.table {
           }
         }
 
-        &.checkbox-cell, &.is-image-cell {
-          border-bottom: 0!important;
+        &.checkbox-cell,
+        &.is-image-cell {
+          border-bottom: 0 !important;
         }
 
-        &.checkbox-cell, &.is-actions-cell {
+        &.checkbox-cell,
+        &.is-actions-cell {
           &:before {
             display: none;
           }
@@ -142,7 +154,7 @@ table.table {
             .image {
               width: $table-avatar-size-mobile;
               height: auto;
-              margin: 0 auto $default-padding * .25;
+              margin: 0 auto $default-padding * 0.25;
             }
           }
         }

@@ -1,17 +1,24 @@
 <template>
-  <card-component title="Acesso ao sistema" icon="lock">
+  <div>
+    <h3 class="subtitle is-centered has-text-centered">
+      <b-icon icon="lock"></b-icon>
+      Acesso ao sistema
+    </h3>
     <form @submit.prevent="signin">
-      <b-field label="Usuário">
-        <b-input
-          v-model="user.username"
-          type="text"
-          placeholder="Usuário"
-          required
-        >
-        </b-input>
+      <b-field :label="labelUsername" :label-position="labelPosition">
+        <div class="block">
+          <b-input
+            v-model="user.username"
+            type="text"
+            placeholder="Usuário"
+            required
+          >
+          </b-input>
+        </div>
       </b-field>
 
-      <b-field label="Senha">
+      <!-- <b-field label="Senha" :label-position="labelPosition"> -->
+      <div class="block">
         <b-input
           v-model="user.password"
           type="password"
@@ -20,46 +27,54 @@
           required
         >
         </b-input>
-      </b-field>
+      </div>
+      <!-- </b-field> -->
 
-      <b-field horizontal>
-        <b-field grouped>
-          <div class="control">
-            <b-button native-type="submit" class="is-primary">Login</b-button>
+      <b-field>
+        <b-field class="columns">
+          <div class="column is-one-half">
+            <b-button native-type="submit" class="is-primary" expanded
+              >Login</b-button
+            >
           </div>
-          <div class="control">
-            <b-button type="is-primary is-outlined" @click="reset">
+          <div class="column is-one-half">
+            <b-button type="is-primary is-outlined" @click="reset" expanded>
               Cancelar
             </b-button>
           </div>
         </b-field>
       </b-field>
+      <b-button type="is-primary" expanded>Algum problema ─></b-button>
     </form>
-  </card-component>
+  </div>
 </template>
 
 <script>
-import CardComponent from "@/components/templates/CardComponent";
-
 export default {
-  components: { CardComponent },
   data() {
     return {
+      labelPosition: "on-border",
       user: {
-        grant_type: "password"
-      }
+        grant_type: "password",
+      },
     };
   },
+  computed: {
+    labelUsername() {
+      return !this.user.username ? "" : "Usuário";
+    },
+  },
+
   methods: {
     reset() {
       this.user = {
-        grant_type: "password"
+        grant_type: "password",
       };
     },
     async signin() {
       try {
         await this.$auth.loginWith("customStrategy", {
-          data: this.user
+          data: this.user,
         });
         this.$router.push("/");
       } catch (err) {
@@ -67,8 +82,8 @@ export default {
           this.$toast.error(item + ": " + err.response.data[item]);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
