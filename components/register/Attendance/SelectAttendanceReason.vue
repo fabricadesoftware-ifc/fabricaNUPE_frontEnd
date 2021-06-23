@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="columns is-vcentered">
-      <div class="column">
+      <div class="column has-text-centered">
         <img src="../../../assets/registration.svg" />
       </div>
       <div class="column">

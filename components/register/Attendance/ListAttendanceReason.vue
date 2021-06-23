@@ -1,6 +1,18 @@
 <template>
   <section class="section is-main-section">
     <h3 class="title">Todos os atendimentos</h3>
+    <b-field>
+      <b-input
+        type="search"
+        icon="magnify"
+        icon-clickable
+        @icon-click="searchIconClickable"
+        placeholder="Pesquise na lista"
+      />
+    </b-field>
+    <b-field class="buttons">
+      <button disabled="disabled">Criar atendimento</button>
+    </b-field>
     <b-table
       :data="data"
       :paginated="isPaginated"
@@ -20,8 +32,6 @@
           :key="index"
           :field="column.field"
           :label="column.label"
-          :sortable="sortable"
-          :searchable="searchable[index]"
         >
           {{ props.row[column.field] }}
         </b-table-column>
@@ -53,7 +63,6 @@ export default {
   data() {
     return {
       // propriedads da tabela
-      searchable: [false, true, true, false],
       sortable: true,
       isPaginated: true,
       isPaginationSimple: false,

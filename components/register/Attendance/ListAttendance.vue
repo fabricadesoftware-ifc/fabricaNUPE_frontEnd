@@ -1,6 +1,31 @@
 <template>
   <div>
-    <h3 class="title">Todos os setores</h3>
+    <div class="block">
+      <h2 class="title">Admin / sector</h2>
+    </div>
+    <h2 class="subtitle">Todos os atendimentos</h2>
+
+    <div class="level">
+      <span class="level-left">
+        <b-input
+          class="level-item"
+          type="search"
+          icon="magnify"
+          icon-clickable
+          placeholder="Pesquise na lista"
+        />
+      </span>
+      <span class="level-right">
+        <b-button
+          @click="createAttendance()"
+          type="is-primary"
+          class="level-item"
+        >
+          Criar atendimento
+        </b-button>
+      </span>
+    </div>
+
     <b-table
       :data="data"
       :paginated="isPaginated"
@@ -20,7 +45,6 @@
           :key="index"
           :field="column.field"
           :label="column.label"
-          :searchable="searchable[index]"
         >
           {{ props.row[column.field] }}
         </b-table-column>
@@ -49,19 +73,7 @@ export default {
   data() {
     return {
       // propriedades da tabela
-      searchable: [
-        false,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        false,
-      ],
+
       isPaginated: true,
       isPaginationSimple: false,
       isPaginationRounded: false,
@@ -225,19 +237,19 @@ export default {
         },
         {
           field: "status",
-          label: "status",
+          label: "Status",
         },
         {
           field: "severity",
-          label: "gravidade",
+          label: "Gravidade",
         },
         {
           field: "attendant_last_name",
-          label: "Sobrenome Atendente",
+          label: "Sobrenome atendente",
         },
         {
           field: "attendant_name",
-          label: "Nome Atendente",
+          label: "Nome atendente",
         },
         {
           field: "attendants",
@@ -261,6 +273,9 @@ export default {
   methods: {
     editAttendance(attendance) {
       this.$emit("editAttendance", attendance);
+    },
+    createAttendance() {
+      this.$emit("createAttendance");
     },
     deleteAttendance(attendance) {
       const index = this.data.indexOf(attendance);

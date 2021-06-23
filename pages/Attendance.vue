@@ -2,7 +2,15 @@
   <section class="section is-main-section">
     <div class="is-vcentered">
       <select-attendance v-if="editing" :attendance="currentAttendance" />
-      <list-attendance v-else @editAttendance="editAttendance" />
+      <create-attendance
+        @cancelCreateAttendance="cancelCreateAttendance"
+        v-else-if="creating"
+      />
+      <list-attendance
+        v-else
+        @createAttendance="createAttendance"
+        @editAttendance="editAttendance"
+      />
     </div>
   </section>
 </template>
@@ -17,10 +25,17 @@ export default {
   data() {
     return {
       editing: false,
+      creating: false,
       currentAttendance: {},
     };
   },
   methods: {
+    cancelCreateAttendance() {
+      this.creating = false;
+    },
+    createAttendance() {
+      this.creating = true;
+    },
     editAttendance(attendance) {
       this.editing = true;
       this.currentAttendance = attendance;

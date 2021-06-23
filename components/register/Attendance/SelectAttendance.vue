@@ -1,8 +1,7 @@
 <template>
   <div class="columns is-vcentered">
     <div class="column has-text-centered">
-      <!-- // * width="300px" parece agradável -->
-      <img src="../../../assets/registration.svg" />
+      <img src="../../../assets/registration.svg" width="300px" />
     </div>
     <div class="column">
       <h3 class="subtitle has-text-centered">
@@ -68,6 +67,10 @@
 
 <script>
 export default {
+  auth: false,
+  props: {
+    attendance: Object,
+  },
   data() {
     return {
       labelPosition: "on-border",
@@ -89,11 +92,6 @@ export default {
           }),
       });
     },
-  },
-
-  auth: false,
-  props: {
-    attendance: Object,
   },
 };
 </script>
