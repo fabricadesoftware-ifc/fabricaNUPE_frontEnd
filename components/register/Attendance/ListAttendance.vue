@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <section>
     <div class="block">
-      <h2 class="title">Admin / sector</h2>
+      <h2 class="title">Admin / atendimento</h2>
     </div>
     <h2 class="subtitle">Todos os atendimentos</h2>
 
@@ -36,8 +36,9 @@
       :default-sort-direction="defaultSortDirection"
       :pagination-rounded="isPaginationRounded"
       :sort-icon="sortIcon"
-      :hoverable="true"
-      :focusable="true"
+      :hoverable="hoverable"
+      :focusable="focusable"
+      :scrollable="scrollable"
     >
       <template v-slot="props">
         <b-table-column
@@ -45,6 +46,7 @@
           :key="index"
           :field="column.field"
           :label="column.label"
+          :sortable="sortable"
         >
           {{ props.row[column.field] }}
         </b-table-column>
@@ -66,14 +68,17 @@
         </b-table-column>
       </template>
     </b-table>
-  </div>
+  </section>
 </template>
 <script>
 export default {
   data() {
     return {
       // propriedades da tabela
-
+      sortable: true,
+      hoverable: true,
+      focusable: true,
+      scrollable: true,
       isPaginated: true,
       isPaginationSimple: false,
       isPaginationRounded: false,

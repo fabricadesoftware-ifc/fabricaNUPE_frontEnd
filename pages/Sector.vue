@@ -2,7 +2,17 @@
   <section class="section is-main-section">
     <div class="is-vcentered">
       <select-sector v-if="editing" :sector="currentSector" />
-      <list-sector v-else @editSector="editSector" />
+      <create-sector
+        v-else-if="creating"
+        @createSector="createSector"
+        :value="value"
+      ></create-sector>
+      <list-sector
+        v-else
+        @createSector="createSector"
+        :value="value"
+        @editSector="editSector"
+      />
     </div>
   </section>
 </template>
@@ -18,9 +28,14 @@ export default {
     return {
       editing: false,
       currentSector: {},
+      creating: false,
+      value: "",
     };
   },
   methods: {
+    createSector(value) {
+      this.creating = value;
+    },
     editSector(sector) {
       this.editing = true;
       this.currentSector = sector;
