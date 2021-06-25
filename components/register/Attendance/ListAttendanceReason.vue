@@ -1,18 +1,31 @@
 <template>
-  <section class="section is-main-section">
-    <h3 class="title">Todos os atendimentos</h3>
-    <b-field>
-      <b-input
-        type="search"
-        icon="magnify"
-        icon-clickable
-        @icon-click="searchIconClickable"
-        placeholder="Pesquise na lista"
-      />
-    </b-field>
-    <b-field class="buttons">
-      <button disabled="disabled">Criar atendimento</button>
-    </b-field>
+  <div>
+    <div class="block">
+      <h2 class="title">Admin / razão do atendimento</h2>
+    </div>
+    <h2 class="subtitle">Todos as razões de atendimento</h2>
+
+    <div class="level">
+      <span class="level-left">
+        <b-input
+          class="level-item"
+          type="search"
+          icon="magnify"
+          icon-clickable
+          placeholder="Pesquise na lista"
+        />
+      </span>
+      <span class="level-right">
+        <b-button
+          @click="createAttendanceReason(true)"
+          type="is-primary"
+          class="level-item"
+        >
+          Criar razão de atendimento
+        </b-button>
+      </span>
+    </div>
+
     <b-table
       :data="data"
       :paginated="isPaginated"
@@ -23,8 +36,9 @@
       :default-sort-direction="defaultSortDirection"
       :pagination-rounded="isPaginationRounded"
       :sort-icon="sortIcon"
-      :hoverable="true"
-      :focusable="true"
+      :hoverable="hoverable"
+      :focusable="focusable"
+      :scrollable="scrollable"
     >
       <template v-slot="props">
         <b-table-column
@@ -32,6 +46,7 @@
           :key="index"
           :field="column.field"
           :label="column.label"
+          :sortable="sortable"
         >
           {{ props.row[column.field] }}
         </b-table-column>
@@ -55,7 +70,7 @@
         </b-table-column>
       </template>
     </b-table>
-  </section>
+  </div>
 </template>
 <script>
 export default {
@@ -64,6 +79,9 @@ export default {
     return {
       // propriedads da tabela
       sortable: true,
+      hoverable: true,
+      focusable: true,
+      scrollable: true,
       isPaginated: true,
       isPaginationSimple: false,
       isPaginationRounded: false,
@@ -113,6 +131,9 @@ export default {
     };
   },
   methods: {
+    createAttendanceReason(value) {
+      this.$emit("createAttendanceReason", value);
+    },
     editAttendanceReason(attendanceReason) {
       this.$emit("editAttendanceReason", attendanceReason);
     },

@@ -19,7 +19,7 @@
         <b-button
           @click="createAttendance()"
           type="is-primary"
-          class="level-item"
+          class="level-item is-primary"
         >
           Criar atendimento
         </b-button>

@@ -3,12 +3,14 @@
     <div class="is-vcentered">
       <select-attendance v-if="editing" :attendance="currentAttendance" />
       <create-attendance
-        @cancelCreateAttendance="cancelCreateAttendance"
+        @createAttendance="createAttendance"
+        :value="value"
         v-else-if="creating"
       />
       <list-attendance
         v-else
         @createAttendance="createAttendance"
+        :value="value"
         @editAttendance="editAttendance"
       />
     </div>
@@ -27,14 +29,12 @@ export default {
       editing: false,
       creating: false,
       currentAttendance: {},
+      value: "",
     };
   },
   methods: {
-    cancelCreateAttendance() {
-      this.creating = false;
-    },
-    createAttendance() {
-      this.creating = true;
+    createAttendance(value) {
+      this.creating = value;
     },
     editAttendance(attendance) {
       this.editing = true;
