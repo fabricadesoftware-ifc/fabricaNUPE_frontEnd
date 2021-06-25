@@ -1,7 +1,11 @@
 <template>
   <section class="section is-main-section">
     <div class="is-vcentered">
-      <select-sector v-if="editing" :sector="currentSector" />
+      <select-sector
+        v-if="editing"
+        :sector="currentSector"
+        @cancelEdit="cancelEdit"
+      />
       <create-sector
         v-else-if="creating"
         @createSector="createSector"
@@ -39,6 +43,10 @@ export default {
     editSector(sector) {
       this.editing = true;
       this.currentSector = sector;
+    },
+    cancelEdit() {
+      this.editing = false;
+      this.currentSector = {};
     },
   },
 };

@@ -8,24 +8,33 @@
         <b-icon icon="map-marker"></b-icon>
         Editar setor
       </h3>
-      <div class="block content">
-        <small>Editando: {{ sector.sector }}</small> <br />
-        <small>Descrição: {{ sector.description }}</small>
-      </div>
       <form>
         <b-field label="Setor" :label-position="labelPosition">
-          <b-input type="text" placeholder="Novo nome ao setor" required>
+          <b-input
+            v-model="currentSector.name"
+            type="text"
+            placeholder="Novo nome ao setor"
+            required
+          >
           </b-input>
         </b-field>
 
         <b-field label="Descrição" :label-position="labelPosition">
-          <b-input type="textarea" placeholder="Novo texto descritivo">
+          <b-input
+            v-model="currentSector.description"
+            type="textarea"
+            placeholder="Novo texto descritivo"
+          >
           </b-input>
         </b-field>
 
         <b-field class="columns">
           <div class="column is-one-half">
-            <b-button native-type="submit" class="is-primary" expanded
+            <b-button
+              native-type="submit"
+              @click.prevent="atualizar"
+              class="is-primary"
+              expanded
               >Atualizar</b-button
             >
           </div>
@@ -48,10 +57,37 @@
 <script>
 export default {
   auth: false,
+  props: {
+    sector: Object,
+  },
   data() {
-    return { labelPosition: "on-border" };
+    return {
+      labelPosition: "on-border",
+      currentSector: {},
+    };
+  },
+  created() {
+    this.currentSector = this.sector;
   },
   methods: {
+    async atualizar() {
+      try {
+        await this.$axios.$patch(`/api/v1/sector/${this.currentSector.id}/`, {
+          name: this.currentSector.name,
+          description: this.currentSector.description,
+        });
+        this.$buefy.toast.open({
+          message: "Setor atualizado com sucesso.",
+          type: "is-primary",
+        });
+        this.$emit("cancelEdit");
+      } catch {
+        this.$buefy.toast.open({
+          message: "Erro ao atualizar o setor!",
+          type: "is-danger",
+        });
+      }
+    },
     confirmCustomDelete() {
       this.$buefy.dialog.confirm({
         title: "Deletar setor",
@@ -69,10 +105,6 @@ export default {
           }),
       });
     },
-  },
-
-  props: {
-    sector: Object,
   },
 };
 </script>

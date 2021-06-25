@@ -54,9 +54,9 @@ export default {
     strategies: {
       customStrategy: {
         _scheme: "~/plugins/schemes/customAuthScheme",
-        client_id: "eHvdvFWYnyiQyC09WLR7dT9vWbXSAeK1ymd3yNsd", // deve manter sempre atualizado
+        client_id: "qp6apa6bdVMgORB61EZWS1nmy4CmZLpGHgMRHMvT", // deve manter sempre atualizado
         client_secret:
-          "Fd4MMY00L9CBIJgCskHwOGBuL87mQkeMZKCJ0UH8pdDs7eYGQdP6F4GnWPmnSEaf7CeusLfqpJIuMg9xz7Wu5MDXdyzwjMC4mIGswmJx85tiLtMWWOlTBjtjVBpIKIND", // deve manter sempre atualizado
+          "Ho1JdNf9BTkuxSQ5Z8TuTfmictX4OKYcluxei6tXELNtyhSc0lXrxKEoogz0MvuuUeBcQ6yoB0NnwH3Hey7Py45h9REP3okgT85Vgli80EY4z843je31kGBfk9HsTVxn", // deve manter sempre atualizado
         token: {
           property: "access",
         },
@@ -85,7 +85,7 @@ export default {
           },
           logout: {},
           user: {
-            url: "/api/v1/user/current/",
+            url: "/api/v1/account/current/",
             method: "get",
             propertyName: false,
           },
@@ -104,7 +104,7 @@ export default {
   },
 
   axios: {
-    baseURL: process.env.API_URL, // não alterar em modo de desenvolvimento
+    baseURL: 'http://localhost:8000', // não alterar em modo de desenvolvimento
     // withCredentials: true,
     // crossdomain: true
   },
@@ -125,7 +125,7 @@ export default {
       },
       {
         name: "defaultError",
-        message: (payload) =>
+        message: (yload) =>
           !payload.msg ? "Oops.. Erro inesperado" : payload.msg,
         options: {
           type: "error",

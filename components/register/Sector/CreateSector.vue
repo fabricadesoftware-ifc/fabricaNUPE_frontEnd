@@ -9,14 +9,24 @@
           <b-icon icon="map-marker"></b-icon>
           Cadastrar setor
         </h3>
-        <form>
+        <form @submit="createSector">
           <b-field label="Setor" :label-position="labelPosition">
-            <b-input type="text" placeholder="Nome do setor" required>
+            <b-input
+              v-model="name"
+              type="text"
+              placeholder="Nome do setor"
+              required
+            >
             </b-input>
           </b-field>
 
           <b-field label="Descrição" :label-position="labelPosition">
-            <b-input type="textarea" placeholder="Texto descritivo"> </b-input>
+            <b-input
+              v-model="description"
+              type="textarea"
+              placeholder="Texto descritivo"
+            >
+            </b-input>
           </b-field>
 
           <b-field>
@@ -29,7 +39,7 @@
               <div class="column is-one-half">
                 <b-button
                   type="is-primary is-outlined"
-                  @click="createSector(false)"
+                  @click="cancelSector(false)"
                   expanded
                 >
                   Cancelar
@@ -49,10 +59,30 @@ export default {
   data() {
     return {
       labelPosition: "on-border",
+      name: "",
+      description: "",
     };
   },
   methods: {
-    createSector() {
+    async createSector() {
+      try {
+        await this.$axios.$post("/api/v1/sector/", {
+          name: this.name,
+          description: this.description,
+        });
+        this.$buefy.toast.open({
+          message: "Setor criador com sucesso.",
+          type: "is-primary",
+        });
+        this.$emit("createSector");
+      } catch {
+        this.$buefy.toast.open({
+          message: "Erro ao criar o setor!",
+          type: "is-danger",
+        });
+      }
+    },
+    cancelSector() {
       this.$emit("createSector");
     },
   },

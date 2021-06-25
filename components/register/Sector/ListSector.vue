@@ -50,20 +50,16 @@
           {{ props.row[column.field] }}
         </b-table-column>
         <b-table-column custom-key="actions" label="Ações">
-          <b-field>
-            <b-button
-              type="is-primary"
-              icon-left="pencil"
-              @click="editSector(props.row)"
-            ></b-button>
-          </b-field>
-          <b-field>
-            <b-button
-              type="is-danger"
-              icon-left="delete"
-              @click="confirmCustomDelete(props.row)"
-            ></b-button>
-          </b-field>
+          <b-button
+            type="is-primary"
+            icon-left="pencil"
+            @click="editSector(props.row)"
+          ></b-button>
+          <b-button
+            type="is-danger"
+            icon-left="delete"
+            @click="confirmCustomDelete(props.row)"
+          ></b-button>
         </b-table-column>
       </template>
     </b-table>
@@ -87,77 +83,16 @@ export default {
       sortIcon: "arrow-up",
       sortIconSize: "is-small",
       currentPage: 1,
-      perPage: 5,
+      perPage: 10,
       // término propriedades da tabela
-      data: [
-        {
-          id: 1,
-          sector: "Setor 1",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-        {
-          id: 2,
-          sector: "Setor A",
-          description:
-            "Aorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-        {
-          id: 3,
-          sector: "Setor 3",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-        {
-          id: 4,
-          sector: "Setor 4",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-        {
-          id: 5,
-          sector: "Setor 5",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-        {
-          id: 6,
-          sector: "Setor 6",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-        {
-          id: 7,
-          sector: "Setor v",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-        {
-          id: 8,
-          sector: "Setor nk",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-        {
-          id: 9,
-          sector: "Setor jj",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-        {
-          id: 10,
-          sector: "Setor B",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-        },
-      ],
+      data: [],
       columns: [
         {
           field: "id",
           label: "ID",
         },
         {
-          field: "sector",
+          field: "name",
           label: "Setor",
         },
         {
@@ -167,7 +102,13 @@ export default {
       ],
     };
   },
+  created() {
+    this.fetchAllSectors();
+  },
   methods: {
+    async fetchAllSectors() {
+      this.data = await this.$axios.$get("/api/v1/sector/");
+    },
     editSector(sector) {
       this.$emit("editSector", sector);
     },
