@@ -17,7 +17,7 @@
           </b-field>
 
           <b-field label="Atendentes" :label-position="labelPosition">
-            <b-input type="text" placeholder="Atendentes" required> </b-input>
+            <b-input type="text" placeholder="Atendentes"> </b-input>
           </b-field>
 
           <b-field label="Gravidade" :label-position="labelPosition">
@@ -31,8 +31,7 @@
           </b-field>
 
           <b-field label="Status" :label-position="labelPosition">
-            <b-input type="text" placeholder="Status do atendimento" required>
-            </b-input>
+            <b-input type="text" placeholder="Status do atendimento"> </b-input>
           </b-field>
 
           <b-field>

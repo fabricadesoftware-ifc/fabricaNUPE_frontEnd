@@ -17,7 +17,7 @@
       </span>
       <span class="level-right">
         <b-button
-          @click="createAttendance()"
+          @click="createAttendance(true)"
           type="is-primary"
           class="level-item is-primary"
         >
@@ -89,148 +89,7 @@ export default {
       currentPage: 1,
       perPage: 5,
       // término propriedades da tabela
-      data: [
-        {
-          id: 1,
-          attendance: "Atendimento 1",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-        {
-          id: 2,
-          attendance: "Atendimento A",
-          description:
-            "Aorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-        {
-          id: 3,
-          attendance: "Atendimento 3",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-        {
-          id: 4,
-          attendance: "Atendimento 4",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-        {
-          id: 5,
-          attendance: "Atendimento 5",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-        {
-          id: 6,
-          attendance: "Atendimento 6",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-        {
-          id: 7,
-          attendance: "Atendimento v",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-        {
-          id: 8,
-          attendance: "Atendimento nk",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-        {
-          id: 9,
-          attendance: "Atendimento jj",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-        {
-          id: 10,
-          attendance: "Atendimento B",
-          description:
-            "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem totam animi ratione ut deserunt veritatis et qui, placeat fuga ipsum quas quibusdam aliquid a esse, recusandae dolor corporis incidunt soluta.",
-          status: "Pendente",
-          severity: "Médio",
-          attendant_last_name: "Souza",
-          attendant_name: "Lurde",
-          attendants: "Pessoa A, B e C",
-          student_last_name: "Jânito",
-          student_name: "Yohan",
-          student: "Yohan Jânito",
-        },
-      ],
+      data: [],
       columns: [
         {
           field: "id",
@@ -261,12 +120,12 @@ export default {
           label: "Atendentes",
         },
         {
-          field: "student_last_name",
-          label: "Sobrenome estudante",
-        },
-        {
           field: "student_name",
           label: "Nome estudante",
+        },
+        {
+          field: "student_last_name",
+          label: "Sobrenome estudante",
         },
         {
           field: "student",
@@ -275,12 +134,18 @@ export default {
       ],
     };
   },
+  created() {
+    this.fetchAllSectors();
+  },
   methods: {
+    async fetchAllSectors() {
+      this.data = await this.$axios.$get("/api/v1/attendance/");
+    },
     editAttendance(attendance) {
       this.$emit("editAttendance", attendance);
     },
-    createAttendance() {
-      this.$emit("createAttendance");
+    createAttendance(value) {
+      this.$emit("createAttendance", value);
     },
     deleteAttendance(attendance) {
       const index = this.data.indexOf(attendance);

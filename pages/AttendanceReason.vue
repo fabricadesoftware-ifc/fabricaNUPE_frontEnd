@@ -5,8 +5,14 @@
         v-if="editing"
         :attendanceReason="currentAttendanceReason"
       />
+      <create-attendance-reason
+        v-else-if="creating"
+        :value="value"
+      ></create-attendance-reason>
       <list-attendance-reason
         v-else
+        @createAttendaceReason="createAttendaceReason"
+        :value="value"
         @editAttendanceReason="editAttendanceReason"
       />
     </div>
@@ -28,9 +34,14 @@ export default {
     return {
       editing: false,
       currentAttendanceReason: {},
+      creating: false,
+      value: "",
     };
   },
   methods: {
+    createAttendaceReason(value) {
+      this.creating = value;
+    },
     editAttendanceReason(attendanceReason) {
       this.editing = true;
       this.currentAttendanceReason = attendanceReason;

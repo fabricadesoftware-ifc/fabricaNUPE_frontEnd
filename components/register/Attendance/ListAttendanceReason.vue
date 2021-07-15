@@ -106,31 +106,17 @@ export default {
           label: "Descrição",
         },
       ],
-      data: [
-        {
-          father_reason: 1,
-          name: "Razão de número 1",
-          description: "Lorem ipsum dolor sit amet",
-        },
-        {
-          father_reason: 2,
-          name: "Continuação da sequência",
-          description: "Lórios ipslon dórios sit down ametyst",
-        },
-        {
-          father_reason: 3,
-          name: "Sucessor",
-          description: "olhos elson notório city downtown mimis",
-        },
-        {
-          father_reason: 4,
-          name: "término temporal da sucessão",
-          description: "alg finguncia notivingerton est sything mimis",
-        },
-      ],
+      data: [],
     };
   },
+  created() {
+    this.fetchAllSectors();
+  },
   methods: {
+    async fetchAllSectors() {
+      console.log(this.$axios.$get("/api/v1/attendance_reason/"));
+      this.data = await this.$axios.$get("/api/v1/attendance_reason/");
+    },
     createAttendanceReason(value) {
       this.$emit("createAttendanceReason", value);
     },

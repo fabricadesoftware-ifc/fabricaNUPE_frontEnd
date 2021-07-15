@@ -1,7 +1,11 @@
 <template>
   <section class="section is-main-section">
     <div class="is-vcentered">
-      <select-attendance v-if="editing" :attendance="currentAttendance" />
+      <select-attendance
+        v-if="editing"
+        @cancelEdit="cancelEdit"
+        :attendance="currentAttendance"
+      />
       <create-attendance
         @createAttendance="createAttendance"
         :value="value"
@@ -23,7 +27,6 @@ import CreateAttendance from "@/components/register/Attendance/CreateAttendance"
 import SelectAttendance from "@/components/register/Attendance/SelectAttendance";
 export default {
   components: { ListAttendance, CreateAttendance, SelectAttendance },
-  auth: false,
   data() {
     return {
       editing: false,
@@ -33,6 +36,9 @@ export default {
     };
   },
   methods: {
+    cancelEdit() {
+      this.creating = false;
+    },
     createAttendance(value) {
       this.creating = value;
     },
