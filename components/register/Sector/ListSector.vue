@@ -113,8 +113,12 @@ export default {
       this.$emit("editSector", sector);
     },
     deleteSector(sector) {
-      const index = this.data.indexOf(sector);
-      this.data.splice(index, 1);
+      try {
+        this.$axios.$delete(`/api/v1/sector/${sector.id}/`);
+      } catch (err) {
+        console.log(err);
+      }
+      window.location.reload();
     },
     createSector(value) {
       this.$emit("createSector", value);

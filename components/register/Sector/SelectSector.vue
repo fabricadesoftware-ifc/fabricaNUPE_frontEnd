@@ -56,7 +56,6 @@
 
 <script>
 export default {
-  auth: false,
   props: {
     sector: Object,
   },
@@ -88,6 +87,14 @@ export default {
         });
       }
     },
+    deleteSector(sector) {
+      try {
+        this.$axios.$delete(`/api/v1/sector/${sector.id}/`);
+      } catch (err) {
+        console.log(err);
+      }
+      window.location.reload();
+    },
     confirmCustomDelete() {
       this.$buefy.dialog.confirm({
         title: "Deletar setor",
@@ -98,11 +105,13 @@ export default {
         confirmText: "Deletar Setor",
         type: "is-danger",
         hasIcon: true,
-        onConfirm: () =>
+        onConfirm: () => {
+          console.log("passou");
           this.$buefy.toast.open({
             message: "Setor deletado com sucesso!",
             type: "is-primary",
-          }),
+          }) && this.deleteSector(this.sector);
+        },
       });
     },
   },

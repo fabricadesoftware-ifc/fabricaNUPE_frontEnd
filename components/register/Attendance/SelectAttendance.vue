@@ -104,7 +104,7 @@ export default {
             attendants: this.currentAttendance.attendants,
             attendance_reason: this.currentAttendance.attendance_reason,
             attendance_severity: this.currentAttendance.attendance_severity,
-            // student: this.currentAttendance.student,
+            student: this.currentAttendance.student,
             status: this.currentAttendance.status,
           }
         );
