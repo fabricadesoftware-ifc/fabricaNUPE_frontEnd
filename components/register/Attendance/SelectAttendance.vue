@@ -78,7 +78,6 @@
   </div>
 </template>
 
-// TODO: razão do atendimento faltante
 
 <script>
 export default {
@@ -115,24 +114,38 @@ export default {
         this.$emit("cancelEdit");
       } catch {
         this.$buefy.toast.open({
-          message: "Erro ao atualizar o atendimento!",
+          message: "Erro ao atualizar atendimento!",
           type: "is-danger",
         });
       }
+    },
+    deleteAttendance() {
+      try {
+        this.$axios.$delete(`/api/v1/attendance/${this.attendance.id}/`);
+      } catch {
+        this.$buefy.toast.open({
+          message: "Erro ao deletar attendance!",
+          type: "is-danger",
+        });
+      }
+      window.location.reload();
     },
     confirmCustomDelete() {
       this.$buefy.dialog.confirm({
         title: "Deletar atendimento",
         message:
-          "Tem certeza que deseja deletar o atendimento? A ação é irreversível",
+          "Tem certeza que deseja deletar " +
+          this.currentAttendance.attendance_reason +
+          "o atendimento? A ação é irreversível ",
         confirmText: "Deletar atendimento",
         type: "is-danger",
         hasIcon: true,
-        onConfirm: () =>
+        onConfirm: () => {
           this.$buefy.toast.open({
             message: "Atendimento deletado com sucesso!",
             type: "is-primary",
-          }),
+          }) && this.deleteAttendance();
+        },
       });
     },
   },

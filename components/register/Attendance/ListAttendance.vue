@@ -135,10 +135,10 @@ export default {
     };
   },
   created() {
-    this.fetchAllSectors();
+    this.fetchAllAttendances();
   },
   methods: {
-    async fetchAllSectors() {
+    async fetchAllAttendances() {
       this.data = await this.$axios.$get("/api/v1/attendance/");
     },
     editAttendance(attendance) {
@@ -148,8 +148,12 @@ export default {
       this.$emit("createAttendance", value);
     },
     deleteAttendance(attendance) {
-      const index = this.data.indexOf(attendance);
-      this.data.splice(index, 1);
+      try {
+        this.$axios.$delete(`/api/v1/attendance/${attendance.id}/`);
+      } catch (err) {
+        console.log(err);
+      }
+      window.location.reload();
     },
     confirmCustomDelete(attendance) {
       this.$buefy.dialog.confirm({
