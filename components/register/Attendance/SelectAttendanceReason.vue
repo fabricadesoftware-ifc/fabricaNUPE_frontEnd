@@ -9,30 +9,44 @@
           <b-icon icon="map-marker"></b-icon>
           Editar razão do atendimento
         </h3>
-        <div class="block content">
-          <b-small>Editando razão pai: {{ father_reason }}</b-small> <br />
-          <b-small>O nome: {{ name }}</b-small> <br />
-          <b-small>A descrição: {{ description }}</b-small> <br />
 
-          <!-- //TODO: Perguntar sobre attendants se lista de integer -->
-        </div>
-        <form action="">
+        <form>
+          <!-- <b-field label="'Razão pai'" :label-position="labelPosition">
+            <b-input
+              type="number"
+              v-model="currentAttendanceReason.father_reason"
+              placeholder="'Razão pai'"
+            >
+            </b-input>
+          </b-field> -->
+
           <b-field label="Nome" :label-position="labelPosition">
-            <b-input type="text" placeholder="Nome" required> </b-input>
-          </b-field>
-
-          <b-field label="Descrição" :label-position="labelPosition">
-            <b-input type="textarea" placeholder="Texto descritivo" required>
+            <b-input
+              type="text"
+              v-model="currentAttendanceReason.name"
+              placeholder="Nome"
+              required
+            >
             </b-input>
           </b-field>
 
-          <b-field label="'Razão pai'" :label-position="labelPosition">
-            <b-input type="number" placeholder="'Razão pai'"> </b-input>
+          <b-field label="Descrição" :label-position="labelPosition">
+            <b-input
+              type="textarea"
+              v-model="currentAttendanceReason.description"
+              placeholder="Texto descritivo"
+              required
+            >
+            </b-input>
           </b-field>
 
           <b-field class="columns">
             <div class="column is-one-half">
-              <b-button native-type="submit" class="is-primary" expanded
+              <b-button
+                native-type="submit"
+                @click.prevent="atualizar"
+                class="is-primary"
+                expanded
                 >Atualizar</b-button
               >
             </div>
@@ -50,29 +64,72 @@
 
 <script>
 export default {
-  methods: {
-    confirmCustomDelete() {
-      this.$buefy.dialog.confirm({
-        title: "Deletar atendimento",
-        message:
-          "Tem certeza que deseja deletar a razão do atendimento? A ação é irreversível",
-        confirmText: "Deletar a razão do atendimento",
-        type: "is-danger",
-        hasIcon: true,
-        onConfirm: () =>
-          this.$buefy.toast.open("Atendimento deletado com sucesso!"),
-      });
-    },
+  props: {
+    attendanceReason: Object,
   },
-
-  auth: false,
   data() {
     return {
       labelPosition: "on-border",
-      father_reason: 1,
-      description: "Algum texto descritivo",
-      name: "Nome em string máxima de 50 caracteres",
+      currentAttendanceReason: {},
     };
+  },
+  created() {
+    this.currentAttendanceReason = this.attendanceReason;
+  },
+  methods: {
+    async atualizar() {
+      try {
+        await this.$axios.$patch(
+          `/api/v1/attendance_reason/${this.currentAttendanceReason.id}/`,
+          {
+            father_reason: this.currentAttendanceReason.father_reason,
+            name: this.currentAttendanceReason.name,
+            description: this.currentAttendanceReason.description,
+          }
+        );
+        this.$buefy.toast.open({
+          message: "Razão atendimento atualizado com sucesso.",
+          type: "is-primary",
+        });
+        this.$emit("cancelEdit");
+      } catch {
+        this.$buefy.toast.open({
+          message: "Erro ao atualizar o razão atendimento!",
+          type: "is-danger",
+        });
+      }
+    },
+    deleteAttendanceReason() {
+      try {
+        this.$axios.$delete(
+          `/api/v1/attendance_reason/${this.currentAttendanceReason.id}`
+        );
+      } catch {
+        this.$buefy.toast.open({
+          message: "Erro ao deletar a razão do atendimento!",
+          type: "is-danger",
+        });
+      }
+      window.location.reload();
+    },
+    confirmCustomDelete() {
+      this.$buefy.dialog.confirm({
+        title: "Deletar razão do atendimento",
+        message:
+          "Tem certeza que deseja deletar " +
+          this.currentAttendanceReason.name +
+          "? A ação é irreversível",
+        confirmText: "Deletar razão do atendimento",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: () => {
+          this.$buefy.toast.open({
+            message: "Razão do atendimento deletado com sucesso!",
+            type: "is-primary",
+          }) && this.deleteAttendanceReason();
+        },
+      });
+    },
   },
 };
 </script>

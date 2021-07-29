@@ -74,7 +74,6 @@
 </template>
 <script>
 export default {
-  auth: false,
   data() {
     return {
       // propriedads da tabela
@@ -114,7 +113,6 @@ export default {
   },
   methods: {
     async fetchAllSectors() {
-      console.log(this.$axios.$get("/api/v1/attendance_reason/"));
       this.data = await this.$axios.$get("/api/v1/attendance_reason/");
     },
     createAttendanceReason(value) {
@@ -124,22 +122,22 @@ export default {
       this.$emit("editAttendanceReason", attendanceReason);
     },
     deleteAttendanceReason(attendanceReason) {
-      const index = this.data.indexOf(attendanceReason);
-      this.data.splice(index, 1);
+      this.$axios.$delete(`/api/v1/attendance_reason/${attendanceReason.id}/`);
+      window.location.reload();
     },
     confirmCustomDelete(attendanceReason) {
       this.$buefy.dialog.confirm({
-        title: "Deletar razão de atendimento",
+        title: "Deletar razão do atendimento",
         message:
           "Tem certeza que deseja deletar o " +
-          attendanceReason.attendanceReason +
+          attendanceReason.name +
           "? A ação é irreversível",
-        confirmText: "Deletar Motivo",
+        confirmText: "Deletar Razão do Atendimento",
         type: "is-danger",
         hasIcon: true,
         onConfirm: () =>
           this.$buefy.toast.open({
-            message: "Motivo e descrição deletados com sucesso!",
+            message: "Razão de atendimento deletado com sucesso!",
             type: "is-primary",
           }) && this.deleteAttendanceReason(attendanceReason),
       });
