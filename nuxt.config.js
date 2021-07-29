@@ -54,9 +54,9 @@ export default {
     strategies: {
       customStrategy: {
         _scheme: "~/plugins/schemes/customAuthScheme",
-        client_id: "e85bZ8RopjoAiSUKEzk1icUL6Eu7NZZ0MYU2jxFs", // deve manter sempre atualizado
+        client_id: "qPDJqCtzc2J2RACgL8jVYc1RNK1jHxa2cmkLnc7Z", // deve manter sempre atualizado
         client_secret:
-          "4NqMdgN9QoW5dz9VQJnBYNMFkfGwdH5POaW9fvphMJXOBSoLX2CcHvgLCkbM6El02dDviaCzpUhMIuw3b9CGYbMYRWPKVW2s2XoS5S9CkXd6WGofyIyofD2mocDcy7DU", // deve manter sempre atualizado
+          "TppQaZwTNUyIXtOy4soTfZ1pXKeFYWFFQikDKOXr4UFz9qlcUSqFsGNGUVYMlCvpi3z5sRM373VHs5uK8inNtSy4RZ59EFD1wqkJ4rc1hQu1LhZHpUFIY6yuuL74bYC0", // deve manter sempre atualizado
         token: {
           property: "access",
         },
