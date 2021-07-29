@@ -9,7 +9,6 @@
       <create-sector
         v-else-if="creating"
         @createSector="createSector"
-        :value="value"
       ></create-sector>
       <list-sector
         v-else
@@ -27,7 +26,6 @@ import CreateSector from "@/components/register/Sector/CreateSector";
 import SelectSector from "@/components/register/Sector/SelectSector";
 export default {
   components: { ListSector, CreateSector, SelectSector },
-  // auth: false,
   data() {
     return {
       editing: false,

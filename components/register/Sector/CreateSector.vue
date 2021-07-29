@@ -39,7 +39,7 @@
               <div class="column is-one-half">
                 <b-button
                   type="is-primary is-outlined"
-                  @click="cancelSector(false)"
+                  @click="cancelSector()"
                   expanded
                 >
                   Cancelar
@@ -59,8 +59,6 @@ export default {
   data() {
     return {
       labelPosition: "on-border",
-      name: "",
-      description: "",
     };
   },
   methods: {
@@ -77,7 +75,7 @@ export default {
         this.$emit("createSector");
       } catch {
         this.$buefy.toast.open({
-          message: "Erro ao criar o setor!",
+          message: "Erro ao criar setor!",
           type: "is-danger",
         });
       }

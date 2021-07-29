@@ -87,11 +87,14 @@ export default {
         });
       }
     },
-    deleteSector(sector) {
+    deleteSector() {
       try {
-        this.$axios.$delete(`/api/v1/sector/${sector.id}/`);
-      } catch (err) {
-        console.log(err);
+        this.$axios.$delete(`/api/v1/sector/${this.currentSector.id}/`);
+      } catch {
+        this.$buefy.toast.open({
+          message: "Erro ao deletar setor!",
+          type: "is-danger",
+        });
       }
       window.location.reload();
     },
@@ -100,17 +103,16 @@ export default {
         title: "Deletar setor",
         message:
           "Tem certeza que deseja deletar o " +
-          this.sector.sector +
+          this.currentSector.name +
           "? A ação é irreversível",
         confirmText: "Deletar Setor",
         type: "is-danger",
         hasIcon: true,
         onConfirm: () => {
-          console.log("passou");
           this.$buefy.toast.open({
             message: "Setor deletado com sucesso!",
             type: "is-primary",
-          }) && this.deleteSector(this.sector);
+          }) && this.deleteSector();
         },
       });
     },
