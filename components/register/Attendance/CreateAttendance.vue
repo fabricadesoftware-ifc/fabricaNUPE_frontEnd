@@ -23,11 +23,19 @@
 
           <b-field label="Atendentes" :label-position="labelPosition">
             <b-input
-              type="number"
-              v-model="attendants"
-              placeholder="Atendentes"
-            >
-            </b-input>
+              list="attendants"
+              v-model="attendant"
+              id="attendant"
+              name="attendants"
+              required
+            />
+            <datalist id="attendants">
+              <option
+                v-for="(item, index) in attendantsAccounts"
+                :key="index"
+                :value="item.full_name"
+              ></option>
+            </datalist>
           </b-field>
 
           <b-field label="Gravidade" :label-position="labelPosition">
@@ -55,9 +63,9 @@
             />
             <datalist id="students">
               <option
-                v-for="(item, index) in students"
+                v-for="(item, index) in studentsAccount"
                 :key="index"
-                :value="students[index].full_name"
+                :value="item.full_name"
               ></option>
             </datalist>
           </b-field>
@@ -110,10 +118,11 @@ export default {
       labelPosition: "on-border",
       attendance_reason: "",
       attendance_severity: "",
-      attendants: "",
+      attendant: "",
       student: "",
       status: "",
-      students: "",
+      studentsAccount: "",
+      attendantsAccounts: "",
     };
   },
   created() {
