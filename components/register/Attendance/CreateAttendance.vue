@@ -12,39 +12,84 @@
 
         <form>
           <b-field label="Razão" :label-position="labelPosition">
-            <b-input type="number" placeholder="Razão do atendimento" required>
+            <b-input
+              type="number"
+              v-model="attendance_reason"
+              placeholder="Razão do atendimento"
+              required
+            >
             </b-input>
           </b-field>
 
           <b-field label="Atendentes" :label-position="labelPosition">
-            <b-input type="text" placeholder="Atendentes"> </b-input>
+            <b-input
+              type="number"
+              v-model="attendants"
+              placeholder="Atendentes"
+            >
+            </b-input>
           </b-field>
 
           <b-field label="Gravidade" :label-position="labelPosition">
-            <b-input type="text" placeholder="Gravidade do problema" required>
-            </b-input>
+            <b-select
+              class="is-primary"
+              type="text"
+              v-model="attendance_severity"
+              placeholder="Gravidade do problema"
+              required
+            >
+              <option value="L">Leve</option>
+              <option value="M">Média</option>
+              <option value="H">Grave</option>
+              <option value="S">Alta</option>
+            </b-select>
           </b-field>
 
           <b-field label="Estudante" :label-position="labelPosition">
-            <b-input type="number" placeholder="Número do estudante" required>
-            </b-input>
+            <b-input
+              list="students"
+              v-model="student"
+              id="student"
+              name="students"
+              required
+            />
+            <datalist id="students">
+              <option
+                v-for="(item, index) in students"
+                :key="index"
+                :value="students[index].full_name"
+              ></option>
+            </datalist>
           </b-field>
 
           <b-field label="Status" :label-position="labelPosition">
-            <b-input type="text" placeholder="Status do atendimento"> </b-input>
+            <b-select
+              type="text"
+              v-model="status"
+              placeholder="Status do atendimento"
+            >
+              <option value="O">Aberto</option>
+              <option value="OH">Em espera</option>
+              <option value="IP">Em andamento</option>
+              <option value="C">Fechado</option>
+            </b-select>
           </b-field>
 
           <b-field>
             <b-field class="columns">
               <div class="column is-one-half">
-                <b-button native-type="submit" class="is-primary" expanded
+                <b-button
+                  native-type="submit"
+                  @click.prevent="createAttendance()"
+                  class="is-primary"
+                  expanded
                   >Cadastrar</b-button
                 >
               </div>
               <div class="column is-one-half">
                 <b-button
                   type="is-primary is-outlined"
-                  @click="cancelCreateAttendance()"
+                  @click="cancelAttendance(true)"
                   expanded
                 >
                   Cancelar
@@ -60,15 +105,64 @@
 
 <script>
 export default {
-  auth: false,
   data() {
     return {
       labelPosition: "on-border",
+      attendance_reason: "",
+      attendance_severity: "",
+      attendants: "",
+      student: "",
+      status: "",
+      students: "",
     };
   },
+  created() {
+    this.fetchAllStudents();
+  },
   methods: {
-    cancelCreateAttendance() {
-      this.$emit("cancelCreateAttendance");
+    searchAccounts() {
+      this.attendantAccountIds = [];
+      for (let index = 0; index < this.attendantsAccounts.length; index++) {
+        if (this.attendantsAccounts[index].id == this.attendants) {
+          this.attendantAccountIds.push(this.attendantsAccounts[index].id);
+        }
+      }
+      for (let index = 0; index < this.studentsAccount.length; index++) {
+        if (this.studentsAccount[index].full_name == this.student) {
+          this.studentSelected = this.studentsAccount[index].id;
+        }
+      }
+    },
+    async fetchAllStudents() {
+      this.studentsAccount = await this.$axios.$get("/api/v1/student/");
+      this.attendantsAccounts = await this.$axios.$get("/api/v1/account/");
+    },
+
+    async createAttendance() {
+      try {
+        this.searchAccounts();
+        await this.$axios.$post("/api/v1/attendance/", {
+          attendance_reason: this.attendance_reason,
+          attendance_severity: this.attendance_severity,
+          attendants: this.accountsId,
+          student: this.studentSelected,
+          status: this.status,
+        });
+        this.$buefy.toast.open({
+          message: "Atendimento criador com sucesso.",
+          type: "is-primary",
+        });
+        this.$emit("createAttendance");
+      } catch {
+        console.log();
+        this.$buefy.toast.open({
+          message: "Erro ao criar o atendimento!",
+          type: "is-danger",
+        });
+      }
+    },
+    cancelAttendance(value) {
+      this.$emit("createAttendance", value);
     },
   },
 };

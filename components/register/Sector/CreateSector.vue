@@ -55,10 +55,11 @@
 
 <script>
 export default {
-  auth: false,
   data() {
     return {
       labelPosition: "on-border",
+      name: "",
+      description: "",
     };
   },
   methods: {
