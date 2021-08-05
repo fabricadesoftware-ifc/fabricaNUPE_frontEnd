@@ -132,7 +132,7 @@ export default {
     searchAccounts() {
       this.attendantAccountIds = [];
       for (let index = 0; index < this.attendantsAccounts.length; index++) {
-        if (this.attendantsAccounts[index].id == this.attendants) {
+        if (this.attendantsAccounts[index].full_name == this.attendant) {
           this.attendantAccountIds.push(this.attendantsAccounts[index].id);
         }
       }
@@ -153,7 +153,7 @@ export default {
         await this.$axios.$post("/api/v1/attendance/", {
           attendance_reason: this.attendance_reason,
           attendance_severity: this.attendance_severity,
-          attendants: this.accountsId,
+          attendants: this.attendantAccountIds,
           student: this.studentSelected,
           status: this.status,
         });
