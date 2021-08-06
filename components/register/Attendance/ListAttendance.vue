@@ -23,6 +23,14 @@
         >
           Criar atendimento
         </b-button>
+        <b-button
+          @click="personalAttendance(true)"
+          class="level-item is-primary is-outlined"
+          >Meus atendimentos</b-button
+        >
+        <b-button @click="teste()" class="level-item is-primary is-outlined"
+          >Teste</b-button
+        >
       </span>
     </div>
 
@@ -138,14 +146,42 @@ export default {
     this.fetchAllAttendances();
   },
   methods: {
+    studentObjectToString() {
+      let keys = [
+        "Id:",
+        "Matrícula:",
+        "Nome completo:",
+        "Data de ingresso:",
+        "Graduado:",
+      ];
+      for (let index in this.data) {
+        let result = "";
+        let position = 0;
+        for (let item in this.data[index].student) {
+          this.data[index].student["graduated"] ==
+          this.data[index].student[item]
+            ? this.data[index].student[item]
+              ? (result += `${keys[position]} Sim; `)
+              : (result += `${keys[position]} Não; `)
+            : (result += `${keys[position]} ${this.data[index].student[item]}; `);
+          position++;
+        }
+        this.data[index].student = result;
+      }
+    },
+
     async fetchAllAttendances() {
       this.data = await this.$axios.$get("/api/v1/attendance/");
+      this.studentObjectToString();
     },
     editAttendance(attendance) {
       this.$emit("editAttendance", attendance);
     },
     createAttendance(value) {
       this.$emit("createAttendance", value);
+    },
+    personalAttendance(value) {
+      this.$emit("personalAttendance", value);
     },
     deleteAttendance(attendance) {
       try {
