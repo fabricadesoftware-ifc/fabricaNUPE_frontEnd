@@ -27,6 +27,7 @@
               v-model="attendant"
               id="attendant"
               name="attendants"
+              placeholder="Nome da atendente"
               required
             />
             <datalist id="attendants">
@@ -59,6 +60,7 @@
               v-model="student"
               id="student"
               name="students"
+              placeholder="Nome do aluno"
               required
             />
             <datalist id="students">
