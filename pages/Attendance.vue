@@ -7,12 +7,13 @@
         :attendance="currentAttendance"
       />
       <create-attendance
-        @createAttendance="createAttendance"
-        :value="value"
         v-else-if="creating"
+        @createAttendance="createAttendance"
       />
+      <my-attendance v-else-if="personal"> </my-attendance>
       <list-attendance
         v-else
+        @personalAttendance="personalAttendance"
         @createAttendance="createAttendance"
         :value="value"
         @editAttendance="editAttendance"
@@ -23,14 +24,21 @@
 
 <script>
 import ListAttendance from "@/components/register/Attendance/ListAttendance";
+import MyAttendance from "@/components/register/Attendance/MyAttendance";
 import CreateAttendance from "@/components/register/Attendance/CreateAttendance";
 import SelectAttendance from "@/components/register/Attendance/SelectAttendance";
 export default {
-  components: { ListAttendance, CreateAttendance, SelectAttendance },
+  components: {
+    ListAttendance,
+    CreateAttendance,
+    MyAttendance,
+    SelectAttendance,
+  },
   data() {
     return {
       editing: false,
       creating: false,
+      personal: false,
       currentAttendance: {},
       value: "",
     };
@@ -38,6 +46,9 @@ export default {
   methods: {
     cancelEdit() {
       this.creating = false;
+    },
+    personalAttendance(value) {
+      this.personal = value;
     },
     createAttendance(value) {
       this.creating = value;
