@@ -28,9 +28,6 @@
           class="level-item is-primary is-outlined"
           >Meus atendimentos</b-button
         >
-        <b-button @click="teste()" class="level-item is-primary is-outlined"
-          >Teste</b-button
-        >
       </span>
     </div>
 
@@ -147,6 +144,13 @@ export default {
   },
 
   methods: {
+    revertDate(date) {
+      let reversedDate = date.split("-");
+      let corectedDateInArray = reversedDate.reverse();
+      let correctedDateInString = corectedDateInArray.join("/");
+      return correctedDateInString;
+    },
+
     studentObjectToString() {
       let keys = [
         "Id:",
@@ -164,6 +168,11 @@ export default {
             ? this.data[index].student[item]
               ? (result += `${keys[position]} Sim; `)
               : (result += `${keys[position]} Não; `)
+            : this.data[index].student["ingress_date"] ==
+              this.data[index].student[item]
+            ? (result += `${keys[position]} ${this.revertDate(
+                this.data[index].student[item]
+              )}; `)
             : (result += `${keys[position]} ${this.data[index].student[item]}; `);
           position++;
         }
