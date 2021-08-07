@@ -145,6 +145,7 @@ export default {
   created() {
     this.fetchAllAttendances();
   },
+
   methods: {
     studentObjectToString() {
       let keys = [
@@ -170,9 +171,31 @@ export default {
       }
     },
 
+    attendantsObjectToString() {
+      let keys = ["Id:", "Nome completo:", "Email:", "Trabalho:"];
+      for (let index in this.data) {
+        for (let item in this.data[index].attendants) {
+          let result = "";
+          let position = 0;
+          for (let property in this.data[index].attendants[item]) {
+            this.data[index].attendants[item][property] ==
+            this.data[index].attendants[item]["local_job"]
+              ? this.data[index].attendants[item][property] == null
+                ? (result += `${keys[position]} Sem registro `)
+                : (result += `${keys[position]} ${this.data[index].attendants[item][property]}: `)
+              : (result += `${keys[position]} ${this.data[index].attendants[item][property]}: `);
+            position++;
+          }
+          this.data[index].attendants[item] = result;
+        }
+        this.data[index].attendants = this.data[index].attendants[0];
+      }
+    },
+
     async fetchAllAttendances() {
       this.data = await this.$axios.$get("/api/v1/attendance/");
       this.studentObjectToString();
+      this.attendantsObjectToString();
     },
     editAttendance(attendance) {
       this.$emit("editAttendance", attendance);
