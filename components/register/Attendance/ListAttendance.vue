@@ -143,9 +143,69 @@ export default {
   created() {
     this.fetchAllAttendances();
   },
+
   methods: {
+    revertDate(date) {
+      let reversedDate = date.split("-");
+      let corectedDateInArray = reversedDate.reverse();
+      let correctedDateInString = corectedDateInArray.join("/");
+      return correctedDateInString;
+    },
+
+    studentObjectToString() {
+      let keys = [
+        "Id:",
+        "Matrícula:",
+        "Nome completo:",
+        "Data de ingresso:",
+        "Graduado:",
+      ];
+      for (let index in this.data) {
+        let result = "";
+        let position = 0;
+        for (let item in this.data[index].student) {
+          this.data[index].student["graduated"] ==
+          this.data[index].student[item]
+            ? this.data[index].student[item]
+              ? (result += `${keys[position]} Sim; `)
+              : (result += `${keys[position]} Não; `)
+            : this.data[index].student["ingress_date"] ==
+              this.data[index].student[item]
+            ? (result += `${keys[position]} ${this.revertDate(
+                this.data[index].student[item]
+              )}; `)
+            : (result += `${keys[position]} ${this.data[index].student[item]}; `);
+          position++;
+        }
+        this.data[index].student = result;
+      }
+    },
+
+    attendantsObjectToString() {
+      let keys = ["Id:", "Nome completo:", "Email:", "Trabalho:"];
+      for (let index in this.data) {
+        for (let item in this.data[index].attendants) {
+          let result = "";
+          let position = 0;
+          for (let property in this.data[index].attendants[item]) {
+            this.data[index].attendants[item][property] ==
+            this.data[index].attendants[item]["local_job"]
+              ? this.data[index].attendants[item][property] == null
+                ? (result += `${keys[position]} Sem registro `)
+                : (result += `${keys[position]} ${this.data[index].attendants[item][property]}: `)
+              : (result += `${keys[position]} ${this.data[index].attendants[item][property]}: `);
+            position++;
+          }
+          this.data[index].attendants[item] = result;
+        }
+        this.data[index].attendants = this.data[index].attendants[0];
+      }
+    },
+
     async fetchAllAttendances() {
       this.data = await this.$axios.$get("/api/v1/attendance/");
+      this.studentObjectToString();
+      this.attendantsObjectToString();
     },
     editAttendance(attendance) {
       this.$emit("editAttendance", attendance);
