@@ -28,6 +28,18 @@
         </b-button>
       </span>
     </div>
+
+    <div class="level">
+      <span class="level-left">
+        <div class="block">
+          <b-checkbox v-model="filter" native-value="name"> Nome </b-checkbox>
+          <b-checkbox v-model="filter" native-value="description">
+            Descrição
+          </b-checkbox>
+        </div>
+      </span>
+    </div>
+
     <b-table
       id="table"
       :data="data"
@@ -74,6 +86,7 @@
 export default {
   data() {
     return {
+      filter: ["name"],
       // propriedades da tabela
       sortable: true,
       hoverable: true,
@@ -114,25 +127,30 @@ export default {
       this.data = await this.$axios.$get("/api/v1/sector/");
       this.backup = this.data;
     },
+
     searchSectors() {
-      var data, input, filter, sectorInIndex, value, txtValue;
-      var listaItensCorrespondentes = [];
-      data = this.data;
+      var data, input, inputLowerCase, sectorInIndex, value;
+      var matchingItens = [];
+      data = this.backup;
       input = document.getElementById("searchInput");
-      filter = input.value.toLowerCase();
+      inputLowerCase = input.value.toLowerCase();
       if ("" != input.value) {
-        for (let index in data) {
-          sectorInIndex = data[index].name.toLowerCase();
-          txtValue = sectorInIndex;
-          if (txtValue.toLowerCase().indexOf(filter) > -1) {
-            value = this.data[index];
-            listaItensCorrespondentes.push(value);
+        for (let position in this.filter) {
+          var filterValue = this.filter[position];
+          console.log(filterValue);
+          for (let index in data) {
+            if (data[index][filterValue] != null) {
+              sectorInIndex = data[index][filterValue].toLowerCase();
+              if (sectorInIndex.toLowerCase().indexOf(inputLowerCase) > -1) {
+                value = data[index];
+                matchingItens.push(value);
+              }
+            }
           }
+          this.data = matchingItens;
         }
-        this.data = listaItensCorrespondentes;
       } else {
         this.data = this.backup;
-        console.log(data);
       }
     },
     editSector(sector) {
