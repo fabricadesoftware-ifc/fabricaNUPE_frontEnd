@@ -129,15 +129,14 @@ export default {
     },
 
     searchSectors() {
-      var data, input, inputLowerCase, sectorInIndex, value;
+      var data, input, inputLowerCase, sectorInIndex, value, filterValue;
       var matchingItens = [];
       data = this.backup;
       input = document.getElementById("searchInput");
       inputLowerCase = input.value.toLowerCase();
       if ("" != input.value) {
         for (let position in this.filter) {
-          var filterValue = this.filter[position];
-          console.log(filterValue);
+          filterValue = this.filter[position];
           for (let index in data) {
             if (data[index][filterValue] != null) {
               sectorInIndex = data[index][filterValue].toLowerCase();

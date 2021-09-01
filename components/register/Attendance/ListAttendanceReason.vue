@@ -15,7 +15,7 @@
           placeholder="Pesquise na lista"
         />
 
-        <b-button @click="searchAttendanceReason()" class="is-primary"
+        <b-button @click="searchAttendanceReasons()" class="is-primary"
           >Pesquisar</b-button
         >
       </span>
@@ -28,6 +28,17 @@
         >
           Criar razão de atendimento
         </b-button>
+      </span>
+    </div>
+
+    <div class="level">
+      <span class="level-left">
+        <div class="block">
+          <b-checkbox v-model="filter" native-value="name"> Nome </b-checkbox>
+          <b-checkbox v-model="filter" native-value="description">
+            Descrição
+          </b-checkbox>
+        </div>
       </span>
     </div>
 
@@ -81,6 +92,7 @@
 export default {
   data() {
     return {
+      filter: ["name"],
       // propriedads da tabela
       sortable: true,
       hoverable: true,
@@ -98,9 +110,13 @@ export default {
       // propriedades da tabela
       columns: [
         {
-          field: "father_reason",
-          label: "Razão pai",
+          field: "id",
+          label: "Id",
         },
+        // {
+        //   field: "father_reason",
+        //   label: "Razão pai",
+        // },
         {
           field: "name",
           label: "Razão do atendimento",
@@ -121,25 +137,36 @@ export default {
       this.data = await this.$axios.$get("/api/v1/attendance_reason/");
       this.backup = this.data;
     },
-    searchAttendanceReason() {
-      var data, input, filter, attendanceReasonInIndex, value, txtValue;
-      var listaItensCorrespondentes = [];
-      data = this.data;
+    searchAttendanceReasons() {
+      var data,
+        input,
+        inputLowerCase,
+        attendanceReasonInIndex,
+        value,
+        filterValue;
+      var matchingItens = [];
+      data = this.backup;
       input = document.getElementById("searchInput");
-      filter = input.value.toLowerCase();
+      inputLowerCase = input.value.toLowerCase();
       if ("" != input.value) {
-        for (let index in data) {
-          attendanceReasonInIndex = data[index].name.toLowerCase();
-          txtValue = attendanceReasonInIndex;
-          if (txtValue.toLowerCase().indexOf(filter) > -1) {
-            value = this.data[index];
-            listaItensCorrespondentes.push(value);
+        for (let position in this.filter) {
+          filterValue = this.filter[position];
+          for (let index in data) {
+            if (data[index][filterValue] != null) {
+              attendanceReasonInIndex = data[index][filterValue].toLowerCase();
+              if (
+                attendanceReasonInIndex.toLowerCase().indexOf(inputLowerCase) >
+                -1
+              ) {
+                value = data[index];
+                matchingItens.push(value);
+              }
+            }
           }
+          this.data = matchingItens;
         }
-        this.data = listaItensCorrespondentes;
       } else {
         this.data = this.backup;
-        console.log(data);
       }
     },
     createAttendanceReason(value) {

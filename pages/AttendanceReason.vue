@@ -1,9 +1,10 @@
 <template>
-  <section>
-    <div class="column">
+  <section class="section is-main-section">
+    <div class="is-vcentered">
       <select-attendance-reason
         v-if="editing"
         :attendanceReason="currentAttendanceReason"
+        @cancelEdit="cancelEdit"
       />
       <create-attendance-reason
         v-else-if="creating"
@@ -45,6 +46,10 @@ export default {
     editAttendanceReason(attendanceReason) {
       this.editing = true;
       this.currentAttendanceReason = attendanceReason;
+    },
+    cancelEdit() {
+      this.editing = false;
+      this.currentAttendanceReason = {};
     },
   },
 };
