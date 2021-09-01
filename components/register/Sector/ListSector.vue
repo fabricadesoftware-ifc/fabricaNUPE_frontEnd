@@ -9,11 +9,14 @@
       <span class="level-left">
         <b-input
           class="level-item"
-          type="search"
+          id="searchInput"
+          type="text"
           icon="magnify"
-          icon-clickable
           placeholder="Pesquise na lista"
         />
+        <b-button class="is-primary" @click="searchSectors()"
+          >Pesquisar</b-button
+        >
       </span>
       <span class="level-right">
         <b-button
@@ -26,6 +29,7 @@
       </span>
     </div>
     <b-table
+      id="table"
       :data="data"
       :paginated="isPaginated"
       :per-page="perPage"
@@ -108,6 +112,28 @@ export default {
   methods: {
     async fetchAllSectors() {
       this.data = await this.$axios.$get("/api/v1/sector/");
+      this.backup = this.data;
+    },
+    searchSectors() {
+      var data, input, filter, sectorInIndex, value, txtValue;
+      var listaItensCorrespondentes = [];
+      data = this.data;
+      input = document.getElementById("searchInput");
+      filter = input.value.toLowerCase();
+      if ("" != input.value) {
+        for (let index in data) {
+          sectorInIndex = data[index].name.toLowerCase();
+          txtValue = sectorInIndex;
+          if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            value = this.data[index];
+            listaItensCorrespondentes.push(value);
+          }
+        }
+        this.data = listaItensCorrespondentes;
+      } else {
+        this.data = this.backup;
+        console.log(data);
+      }
     },
     editSector(sector) {
       this.$emit("editSector", sector);
