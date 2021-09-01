@@ -9,12 +9,17 @@
       <span class="level-left">
         <b-input
           class="level-item"
+          id="searchInput"
           type="search"
           icon="magnify"
-          icon-clickable
           placeholder="Pesquise na lista"
         />
+
+        <b-button @click="searchAttendanceReason()" class="is-primary"
+          >Pesquisar</b-button
+        >
       </span>
+
       <span class="level-right">
         <b-button
           @click="createAttendanceReason(true)"
@@ -109,11 +114,33 @@ export default {
     };
   },
   created() {
-    this.fetchAllSectors();
+    this.fetchAllAttendanceReasons();
   },
   methods: {
-    async fetchAllSectors() {
+    async fetchAllAttendanceReasons() {
       this.data = await this.$axios.$get("/api/v1/attendance_reason/");
+      this.backup = this.data;
+    },
+    searchAttendanceReason() {
+      var data, input, filter, attendanceReasonInIndex, value, txtValue;
+      var listaItensCorrespondentes = [];
+      data = this.data;
+      input = document.getElementById("searchInput");
+      filter = input.value.toLowerCase();
+      if ("" != input.value) {
+        for (let index in data) {
+          attendanceReasonInIndex = data[index].name.toLowerCase();
+          txtValue = attendanceReasonInIndex;
+          if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            value = this.data[index];
+            listaItensCorrespondentes.push(value);
+          }
+        }
+        this.data = listaItensCorrespondentes;
+      } else {
+        this.data = this.backup;
+        console.log(data);
+      }
     },
     createAttendanceReason(value) {
       this.$emit("createAttendanceReason", value);
