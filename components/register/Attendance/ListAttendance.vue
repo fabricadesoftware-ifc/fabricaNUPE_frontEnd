@@ -23,6 +23,11 @@
         >
           Criar atendimento
         </b-button>
+        <b-button
+          @click="personalAttendance(true)"
+          class="level-item is-primary is-outlined"
+          >Meus atendimentos</b-button
+        >
       </span>
     </div>
 
@@ -134,6 +139,7 @@ export default {
       ],
     };
   },
+
   created() {
     this.fetchAllAttendances();
   },
@@ -146,6 +152,9 @@ export default {
     },
     createAttendance(value) {
       this.$emit("createAttendance", value);
+    },
+    personalAttendance(value) {
+      this.$emit("personalAttendance", value);
     },
     deleteAttendance(attendance) {
       try {
