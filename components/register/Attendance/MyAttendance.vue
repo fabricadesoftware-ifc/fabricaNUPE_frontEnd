@@ -17,11 +17,11 @@
       </span>
       <span class="level-right">
         <b-button
-          @click="teste()"
+          @click="personalAttendance(false)"
           type="is-primary"
           class="level-item is-primary"
         >
-          Botão
+          Todos os atendimentos
         </b-button>
       </span>
       <!-- <span class="level-right">
@@ -58,7 +58,7 @@
         >
           {{ props.row[column.field] }}
         </b-table-column>
-        <b-table-column custom-key="actions" label="Ações">
+        <!-- <b-table-column custom-key="actions" label="Ações">
           <b-field>
             <b-button
               type="is-primary"
@@ -73,7 +73,7 @@
               @click="confirmCustomDelete(props.row)"
             ></b-button>
           </b-field>
-        </b-table-column>
+        </b-table-column> -->
       </template>
     </b-table>
   </section>
@@ -104,12 +104,28 @@ export default {
           label: "ID",
         },
         {
-          field: "status",
-          label: "Status",
+          field: "public_annotation",
+          label: "Anotação pública",
         },
         {
-          field: "attendants",
-          label: "Atendentes",
+          field: "private_annotation",
+          label: "Anotação privada",
+        },
+        {
+          field: "group_annotation",
+          label: "Anotação grupal",
+        },
+        {
+          field: "attendance",
+          label: "Atendimento",
+        },
+        {
+          field: "attendance_at",
+          label: "Atendimento em",
+        },
+        {
+          field: "updated_at",
+          label: "Atualizado em",
         },
       ],
     };
@@ -119,9 +135,10 @@ export default {
   },
   methods: {
     async fetchAllAttendances() {
-      var data = await this.$axios.$get("/api/v1/attendance/my/");
-      this.data.push(data);
-      document.querySelector("table").innerHTML = this.data;
+      this.data = await this.$axios.$get("/api/v1/attendance/my/");
+    },
+    personalAttendance(value) {
+      this.$emit("personalAttendance", value);
     },
   },
 };
