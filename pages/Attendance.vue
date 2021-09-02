@@ -9,14 +9,21 @@
       <create-attendance
         v-else-if="creating"
         @createAttendance="createAttendance"
+        :value="value"
       />
-      <my-attendance v-else-if="personal"> </my-attendance>
+      <my-attendance
+        v-else-if="personal"
+        @personalAttendance="personalAttendance"
+        :value="value"
+      >
+      </my-attendance>
+      <report-attendance v-else-if="report"></report-attendance>
       <list-attendance
         v-else
         @personalAttendance="personalAttendance"
+        @editAttendance="editAttendance"
         @createAttendance="createAttendance"
         :value="value"
-        @editAttendance="editAttendance"
       />
     </div>
   </section>
@@ -25,6 +32,7 @@
 <script>
 import ListAttendance from "@/components/register/Attendance/ListAttendance";
 import MyAttendance from "@/components/register/Attendance/MyAttendance";
+import ReportAttendance from "@/components/register/Attendance/ReportAttendance";
 import CreateAttendance from "@/components/register/Attendance/CreateAttendance";
 import SelectAttendance from "@/components/register/Attendance/SelectAttendance";
 export default {
@@ -32,6 +40,7 @@ export default {
     ListAttendance,
     CreateAttendance,
     MyAttendance,
+    ReportAttendance,
     SelectAttendance,
   },
   data() {
@@ -39,6 +48,7 @@ export default {
       editing: false,
       creating: false,
       personal: false,
+      report: false,
       currentAttendance: {},
       value: "",
     };
