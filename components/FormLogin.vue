@@ -17,18 +17,18 @@
         </div>
       </b-field>
 
-      <!-- <b-field label="Senha" :label-position="labelPosition"> -->
-      <div class="block">
-        <b-input
-          v-model="user.password"
-          type="password"
-          password-reveal
-          placeholder="Senha"
-          required
-        >
-        </b-input>
-      </div>
-      <!-- </b-field> -->
+      <b-field :label="labelPassword" :label-position="labelPosition">
+        <div class="block">
+          <b-input
+            v-model="user.password"
+            type="password"
+            password-reveal
+            placeholder="Senha"
+            required
+          >
+          </b-input>
+        </div>
+      </b-field>
 
       <b-field>
         <b-field class="columns">
@@ -62,6 +62,9 @@ export default {
   computed: {
     labelUsername() {
       return !this.user.username ? "" : "Usuário";
+    },
+    labelPassword() {
+      return !this.user.password ? "" : "Senha";
     },
   },
 
