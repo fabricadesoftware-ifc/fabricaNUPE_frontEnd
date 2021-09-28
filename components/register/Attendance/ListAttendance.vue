@@ -9,12 +9,18 @@
       <span class="level-left">
         <b-input
           class="level-item"
+          id="searchInput"
           type="search"
+          @input="searchAttendances()"
           icon="magnify"
           icon-clickable
           placeholder="Pesquise na lista"
         />
+        <b-button @click="searchAttendances()" class="is-primary"
+          >Pesquisar</b-button
+        >
       </span>
+
       <span class="level-right">
         <b-button
           @click="createAttendance(true)"
@@ -26,8 +32,31 @@
         <b-button
           @click="personalAttendance(true)"
           class="level-item is-primary is-outlined"
-          >Meus atendimentos</b-button
         >
+          Meus atendimentos
+        </b-button>
+        <b-button
+          @click="reportAttendance(true)"
+          class="level-item is-primary is-outlined"
+        >
+          Reporte dos atendimentos
+        </b-button>
+      </span>
+    </div>
+
+    <div class="level">
+      <span class="level-left">
+        <div class="block">
+          <b-checkbox v-model="filter" native-value="status">
+            Status
+          </b-checkbox>
+          <b-checkbox v-model="filter" native-value="attendants">
+            Atendentes
+          </b-checkbox>
+          <b-checkbox v-model="filter" native-value="student">
+            Estudante
+          </b-checkbox>
+        </div>
       </span>
     </div>
 
@@ -53,7 +82,24 @@
           :label="column.label"
           :sortable="sortable"
         >
-          {{ props.row[column.field] }}
+          <span v-if="column.field == 'attendants'">
+            <span v-for="(obj, index) in props.row[column.field]" :key="index">
+              <span v-for="(value, index) in obj" :key="index">
+                {{ index }}: {{ value }}
+              </span>
+            </span>
+          </span>
+          <span v-else-if="column.field == 'student'">
+            <span
+              v-for="(value, index) in props.row[column.field]"
+              :key="index"
+            >
+              {{ index }}: {{ value }}
+            </span>
+          </span>
+          <span v-else>
+            {{ props.row[column.field] }}
+          </span>
         </b-table-column>
         <b-table-column custom-key="actions" label="Ações">
           <b-field>
@@ -79,6 +125,7 @@
 export default {
   data() {
     return {
+      filter: ["status"],
       // propriedades da tabela
       sortable: true,
       hoverable: true,
@@ -101,36 +148,12 @@ export default {
           label: "ID",
         },
         {
-          field: "attendance",
-          label: "Atendimento",
-        },
-        {
           field: "status",
           label: "Status",
         },
         {
-          field: "severity",
-          label: "Gravidade",
-        },
-        {
-          field: "attendant_last_name",
-          label: "Sobrenome atendente",
-        },
-        {
-          field: "attendant_name",
-          label: "Nome atendente",
-        },
-        {
           field: "attendants",
           label: "Atendentes",
-        },
-        {
-          field: "student_name",
-          label: "Nome estudante",
-        },
-        {
-          field: "student_last_name",
-          label: "Sobrenome estudante",
         },
         {
           field: "student",
@@ -145,68 +168,59 @@ export default {
   },
 
   methods: {
-    revertDate(date) {
-      let reversedDate = date.split("-");
-      let corectedDateInArray = reversedDate.reverse();
-      let correctedDateInString = corectedDateInArray.join("/");
-      return correctedDateInString;
-    },
-
-    studentObjectToString() {
-      let keys = [
-        "Id:",
-        "Matrícula:",
-        "Nome completo:",
-        "Data de ingresso:",
-        "Graduado:",
-      ];
-      for (let index in this.data) {
-        let result = "";
-        let position = 0;
-        for (let item in this.data[index].student) {
-          this.data[index].student["graduated"] ==
-          this.data[index].student[item]
-            ? this.data[index].student[item]
-              ? (result += `${keys[position]} Sim; `)
-              : (result += `${keys[position]} Não; `)
-            : this.data[index].student["ingress_date"] ==
-              this.data[index].student[item]
-            ? (result += `${keys[position]} ${this.revertDate(
-                this.data[index].student[item]
-              )}; `)
-            : (result += `${keys[position]} ${this.data[index].student[item]}; `);
-          position++;
-        }
-        this.data[index].student = result;
-      }
-    },
-
-    attendantsObjectToString() {
-      let keys = ["Id:", "Nome completo:", "Email:", "Trabalho:"];
-      for (let index in this.data) {
-        for (let item in this.data[index].attendants) {
-          let result = "";
-          let position = 0;
-          for (let property in this.data[index].attendants[item]) {
-            this.data[index].attendants[item][property] ==
-            this.data[index].attendants[item]["local_job"]
-              ? this.data[index].attendants[item][property] == null
-                ? (result += `${keys[position]} Sem registro `)
-                : (result += `${keys[position]} ${this.data[index].attendants[item][property]}: `)
-              : (result += `${keys[position]} ${this.data[index].attendants[item][property]}: `);
-            position++;
-          }
-          this.data[index].attendants[item] = result;
-        }
-        this.data[index].attendants = this.data[index].attendants[0];
-      }
-    },
-
     async fetchAllAttendances() {
       this.data = await this.$axios.$get("/api/v1/attendance/");
-      this.studentObjectToString();
-      this.attendantsObjectToString();
+      this.backup = this.data;
     },
+
+    searchAttendances() {
+      var data,
+        input,
+        inputLowerCase,
+        statusInIndex,
+        attendantsInIndex,
+        studentInIndex;
+
+      var matchingItens = [];
+      data = this.backup;
+      input = document.getElementById("searchInput");
+      inputLowerCase = input.value.toLowerCase();
+      if ("" != input.value) {
+        if (this.filter.indexOf("status") > -1) {
+          for (let index in data) {
+            if (data[index]["status"] != null) {
+              statusInIndex = data[index]["status"].toLowerCase();
+              if (statusInIndex.indexOf(inputLowerCase) > -1) {
+                matchingItens.push(data[index]);
+              }
+            }
+          }
+        }
+        if (this.filter.indexOf("attendants") > -1) {
+          for (let index in data) {
+            for (let attendants in data[index]["attendants"]) {
+              attendantsInIndex =
+                data[index]["attendants"][attendants].full_name.toLowerCase();
+              if (attendantsInIndex.indexOf(inputLowerCase) > -1) {
+                matchingItens.push(data[index]);
+              }
+            }
+          }
+        }
+        if (this.filter.indexOf("student") > -1) {
+          for (let index in data) {
+            studentInIndex = data[index]["student"].full_name.toLowerCase();
+            if (studentInIndex.indexOf(inputLowerCase) > -1) {
+              matchingItens.push(data[index]);
+            }
+          }
+        }
+        this.data = matchingItens;
+      } else {
+        this.data = this.backup;
+      }
+    },
+
     editAttendance(attendance) {
       this.$emit("editAttendance", attendance);
     },
@@ -216,6 +230,10 @@ export default {
     personalAttendance(value) {
       this.$emit("personalAttendance", value);
     },
+    reportAttendance(value) {
+      this.$emit("reportAttendance", value);
+    },
+
     deleteAttendance(attendance) {
       try {
         this.$axios.$delete(`/api/v1/attendance/${attendance.id}/`);
@@ -224,6 +242,7 @@ export default {
       }
       window.location.reload();
     },
+
     confirmCustomDelete(attendance) {
       this.$buefy.dialog.confirm({
         title: "Deletar atendimento",
