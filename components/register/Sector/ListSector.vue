@@ -29,17 +29,6 @@
       </span>
     </div>
 
-    <div class="level">
-      <span class="level-left">
-        <div class="block">
-          <b-checkbox v-model="filter" native-value="name"> Nome </b-checkbox>
-          <b-checkbox v-model="filter" native-value="description">
-            Descrição
-          </b-checkbox>
-        </div>
-      </span>
-    </div>
-
     <b-table
       id="table"
       :data="data"
@@ -128,28 +117,18 @@ export default {
       this.backup = this.data;
     },
 
-    searchSectors() {
-      var data, input, inputLowerCase, sectorInIndex, value, filterValue;
-      var matchingItens = [];
-      data = this.backup;
-      input = document.getElementById("searchInput");
-      inputLowerCase = input.value.toLowerCase();
-      if ("" != input.value) {
-        for (let position in this.filter) {
-          filterValue = this.filter[position];
-          for (let index in data) {
-            if (data[index][filterValue] != null) {
-              sectorInIndex = data[index][filterValue].toLowerCase();
-              if (sectorInIndex.toLowerCase().indexOf(inputLowerCase) > -1) {
-                value = data[index];
-                matchingItens.push(value);
-              }
-            }
-          }
-          this.data = matchingItens;
-        }
+    async searchSectors() {
+      this.search = await this.$axios.$get(
+        `/api/v1/sector?search=${document.getElementById("searchInput").value}`
+      );
+      if (this.search.length > 0) {
+        this.data.length = 0;
+        this.data = this.search;
       } else {
-        this.data = this.backup;
+        this.$buefy.toast.open({
+          message: "Sem resultados válidos!",
+          type: "is-danger",
+        });
       }
     },
     editSector(sector) {
