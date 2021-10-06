@@ -12,8 +12,7 @@
       ></create-attendance-reason>
       <list-attendance-reason
         v-else
-        @createAttendaceReason="createAttendaceReason"
-        :value="value"
+        @createAttendanceReason="createAttendanceReason"
         @editAttendanceReason="editAttendanceReason"
       />
     </div>
@@ -40,8 +39,8 @@ export default {
     };
   },
   methods: {
-    createAttendaceReason(value) {
-      this.creating = value;
+    createAttendanceReason() {
+      this.creating = true;
     },
     editAttendanceReason(attendanceReason) {
       this.editing = true;
