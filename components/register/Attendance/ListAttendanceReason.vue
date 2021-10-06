@@ -22,7 +22,7 @@
 
       <span class="level-right">
         <b-button
-          @click="createAttendanceReason(true)"
+          @click="createAttendanceReason()"
           type="is-primary"
           class="level-item"
         >
@@ -34,10 +34,12 @@
     <div class="level">
       <span class="level-left">
         <div class="block">
-          <b-checkbox v-model="filter" native-value="name"> Nome </b-checkbox>
-          <b-checkbox v-model="filter" native-value="description">
-            Descrição
-          </b-checkbox>
+          <b-radio v-model="filter" native-value="father_reason">
+            Razão pai
+          </b-radio>
+          <b-radio v-model="filter" native-value="search">
+            Qualquer correspondência
+          </b-radio>
         </div>
       </span>
     </div>
@@ -92,7 +94,7 @@
 export default {
   data() {
     return {
-      filter: ["name"],
+      filter: "search",
       // propriedads da tabela
       sortable: true,
       hoverable: true,
@@ -137,40 +139,24 @@ export default {
       this.data = await this.$axios.$get("/api/v1/attendance_reason/");
       this.backup = this.data;
     },
-    searchAttendanceReasons() {
-      var data,
-        input,
-        inputLowerCase,
-        attendanceReasonInIndex,
-        value,
-        filterValue;
-      var matchingItens = [];
-      data = this.backup;
-      input = document.getElementById("searchInput");
-      inputLowerCase = input.value.toLowerCase();
-      if ("" != input.value) {
-        for (let position in this.filter) {
-          filterValue = this.filter[position];
-          for (let index in data) {
-            if (data[index][filterValue] != null) {
-              attendanceReasonInIndex = data[index][filterValue].toLowerCase();
-              if (
-                attendanceReasonInIndex.toLowerCase().indexOf(inputLowerCase) >
-                -1
-              ) {
-                value = data[index];
-                matchingItens.push(value);
-              }
-            }
-          }
-          this.data = matchingItens;
-        }
+    async searchAttendanceReasons() {
+      this.search = await this.$axios.$get(
+        `/api/v1/attendance_reason?${this.filter}=${
+          document.getElementById("searchInput").value
+        }`
+      );
+      if (this.search.length > 0) {
+        this.data.length = 0;
+        this.data = this.search;
       } else {
-        this.data = this.backup;
+        this.$buefy.toast.open({
+          message: "Sem resultados válidos!",
+          type: "is-danger",
+        });
       }
     },
-    createAttendanceReason(value) {
-      this.$emit("createAttendanceReason", value);
+    createAttendanceReason() {
+      this.$emit("createAttendanceReason");
     },
     editAttendanceReason(attendanceReason) {
       this.$emit("editAttendanceReason", attendanceReason);
