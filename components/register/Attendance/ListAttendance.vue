@@ -11,14 +11,13 @@
           class="level-item"
           id="searchInput"
           type="search"
-          @input="searchAttendances()"
           icon="magnify"
           icon-clickable
           placeholder="Pesquise na lista"
         />
-        <b-button @click="searchAttendances()" class="is-primary"
-          >Pesquisar</b-button
-        >
+        <b-button @click="searchAttendances()" class="is-primary">
+          Pesquisar
+        </b-button>
       </span>
 
       <span class="level-right">
@@ -47,15 +46,14 @@
     <div class="level">
       <span class="level-left">
         <div class="block">
-          <b-checkbox v-model="filter" native-value="status">
-            Status
-          </b-checkbox>
-          <b-checkbox v-model="filter" native-value="attendants">
+          <b-radio v-model="filter" native-value="status"> Status </b-radio>
+          <b-radio v-model="filter" native-value="attendants">
             Atendentes
-          </b-checkbox>
-          <b-checkbox v-model="filter" native-value="student">
-            Estudante
-          </b-checkbox>
+          </b-radio>
+          <b-radio v-model="filter" native-value="student"> Estudante </b-radio>
+          <b-radio v-model="filter" native-value="search">
+            Qualquer correspondência
+          </b-radio>
         </div>
       </span>
     </div>
@@ -117,6 +115,9 @@
             ></b-button>
           </b-field>
         </b-table-column>
+        <!-- <b-table-column>
+        {{ search }}
+      </b-table-column> -->
       </template>
     </b-table>
   </section>
@@ -125,7 +126,7 @@
 export default {
   data() {
     return {
-      filter: ["status"],
+      filter: "status",
       // propriedades da tabela
       sortable: true,
       hoverable: true,
@@ -173,51 +174,20 @@ export default {
       this.backup = this.data;
     },
 
-    searchAttendances() {
-      var data,
-        input,
-        inputLowerCase,
-        statusInIndex,
-        attendantsInIndex,
-        studentInIndex;
-
-      var matchingItens = [];
-      data = this.backup;
-      input = document.getElementById("searchInput");
-      inputLowerCase = input.value.toLowerCase();
-      if ("" != input.value) {
-        if (this.filter.indexOf("status") > -1) {
-          for (let index in data) {
-            if (data[index]["status"] != null) {
-              statusInIndex = data[index]["status"].toLowerCase();
-              if (statusInIndex.indexOf(inputLowerCase) > -1) {
-                matchingItens.push(data[index]);
-              }
-            }
-          }
-        }
-        if (this.filter.indexOf("attendants") > -1) {
-          for (let index in data) {
-            for (let attendants in data[index]["attendants"]) {
-              attendantsInIndex =
-                data[index]["attendants"][attendants].full_name.toLowerCase();
-              if (attendantsInIndex.indexOf(inputLowerCase) > -1) {
-                matchingItens.push(data[index]);
-              }
-            }
-          }
-        }
-        if (this.filter.indexOf("student") > -1) {
-          for (let index in data) {
-            studentInIndex = data[index]["student"].full_name.toLowerCase();
-            if (studentInIndex.indexOf(inputLowerCase) > -1) {
-              matchingItens.push(data[index]);
-            }
-          }
-        }
-        this.data = matchingItens;
+    async searchAttendances() {
+      this.search = await this.$axios.$get(
+        `/api/v1/attendance?${this.filter}=${
+          document.getElementById("searchInput").value
+        }`
+      );
+      if (this.search.length > 0) {
+        this.data.length = 0;
+        this.data = this.search;
       } else {
-        this.data = this.backup;
+        this.$buefy.toast.open({
+          message: "Sem resultados válidos!",
+          type: "is-danger",
+        });
       }
     },
 
