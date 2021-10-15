@@ -17,11 +17,16 @@
         :value="value"
       >
       </my-attendance>
-      <report-attendance v-else-if="report"></report-attendance>
+      <report-attendance
+        v-else-if="report"
+        @reportAttendance="reportAttendance"
+        :value="value"
+      ></report-attendance>
       <list-attendance
         v-else
         @personalAttendance="personalAttendance"
         @editAttendance="editAttendance"
+        @reportAttendance="reportAttendance"
         @createAttendance="createAttendance"
         :value="value"
       />
@@ -55,7 +60,8 @@ export default {
   },
   methods: {
     cancelEdit() {
-      this.creating = false;
+      this.editing = false;
+      this.currentAttendance = {};
     },
     personalAttendance(value) {
       this.personal = value;
@@ -66,6 +72,9 @@ export default {
     editAttendance(attendance) {
       this.editing = true;
       this.currentAttendance = attendance;
+    },
+    reportAttendance(value) {
+      this.report = value;
     },
   },
 };
