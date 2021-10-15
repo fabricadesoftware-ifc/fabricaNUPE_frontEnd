@@ -9,12 +9,17 @@
       <span class="level-left">
         <b-input
           class="level-item"
+          id="searchInput"
           type="search"
           icon="magnify"
           icon-clickable
           placeholder="Pesquise na lista"
         />
+        <b-button class="is-primary" @click="searchAttendances()"
+          >Pesquisar</b-button
+        >
       </span>
+
       <span class="level-right">
         <b-button
           @click="personalAttendance(false)"
@@ -34,6 +39,39 @@
         </b-button>
       </span> -->
     </div>
+
+    <div class="level">
+      <div class="block">
+        <b-radio v-model="filter" native-value="status"> Status </b-radio>
+        <b-radio v-model="filter" native-value="student_name">
+          Nome do estudante
+        </b-radio>
+        <b-radio v-model="filter" native-value="student_last_name">
+          Sobrenome do estudante
+        </b-radio>
+        <b-radio v-model="filter" native-value="attendants">
+          Atendentes
+        </b-radio>
+        <b-radio v-model="filter" native-value="attendant_name">
+          Nome do atendente
+        </b-radio>
+        <b-radio v-model="filter" native-value="attendant_last_name">
+          Sobrenome do atendente
+        </b-radio>
+        <b-radio v-model="filter" native-value="severity"> Gravidade </b-radio>
+        <b-radio v-model="filter" native-value="student"> Estudante </b-radio>
+        <b-radio v-model="filter" native-value="student_name">
+          Nome do estudante
+        </b-radio>
+        <b-radio v-model="filter" native-value="student_last_name">
+          Sobrenome do estudante
+        </b-radio>
+        <b-radio v-model="filter" native-value="search">
+          Qualquer correspondência
+        </b-radio>
+      </div>
+    </div>
+
     <b-table
       :data="data"
       :paginated="isPaginated"
@@ -58,22 +96,6 @@
         >
           {{ props.row[column.field] }}
         </b-table-column>
-        <!-- <b-table-column custom-key="actions" label="Ações">
-          <b-field>
-            <b-button
-              type="is-primary"
-              icon-left="pencil"
-              @click="editAttendance(props.row)"
-            ></b-button>
-          </b-field>
-          <b-field>
-            <b-button
-              type="is-danger"
-              icon-left="delete"
-              @click="confirmCustomDelete(props.row)"
-            ></b-button>
-          </b-field>
-        </b-table-column> -->
       </template>
     </b-table>
   </section>
@@ -82,6 +104,7 @@
 export default {
   data() {
     return {
+      filter: "status",
       // propriedades da tabela
       sortable: true,
       hoverable: true,
@@ -134,8 +157,25 @@ export default {
     this.fetchAllAttendances();
   },
   methods: {
+    async searchAttendances() {
+      this.search = await this.$axios.$get(
+        `/api/v1/attendance/my?${this.filter}=${
+          document.getElementById("searchInput").value
+        }`
+      );
+      if (this.search.length > 0) {
+        this.data.length = 0;
+        this.data = this.search;
+      } else {
+        this.$buefy.toast.open({
+          message: "Sem resultados válidos!",
+          type: "is-danger",
+        });
+      }
+    },
     async fetchAllAttendances() {
       this.data = await this.$axios.$get("/api/v1/attendance/my/");
+      this.backup = this.data;
     },
     personalAttendance(value) {
       this.$emit("personalAttendance", value);
