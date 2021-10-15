@@ -14,6 +14,10 @@ $auxiliary-green: #50e170;
 $auxiliary-red: #f05454;
 $auxiliary-yellow: #ffd76b;
 
+$success: $auxiliary-green;
+$danger: $auxiliary-red;
+$alert: $auxiliary-yellow;
+
 /* Base: Size  */
 $size-base: 1rem;
 $default-padding: $size-base * 1.5;
