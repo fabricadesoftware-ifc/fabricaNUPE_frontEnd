@@ -44,18 +44,29 @@
     </div>
 
     <div class="level">
-      <span class="level-left">
-        <div class="block">
-          <b-radio v-model="filter" native-value="status"> Status </b-radio>
-          <b-radio v-model="filter" native-value="attendants">
-            Atendentes
-          </b-radio>
-          <b-radio v-model="filter" native-value="student"> Estudante </b-radio>
-          <b-radio v-model="filter" native-value="search">
-            Qualquer correspondência
-          </b-radio>
-        </div>
-      </span>
+      <div class="block">
+        <b-radio v-model="filter" native-value="status"> Status </b-radio>
+        <b-radio v-model="filter" native-value="student"> Estudante </b-radio>
+        <b-radio v-model="filter" native-value="student_name">
+          Nome do estudante
+        </b-radio>
+        <b-radio v-model="filter" native-value="student_last_name">
+          Sobrenome do estudante
+        </b-radio>
+        <b-radio v-model="filter" native-value="attendants">
+          Atendentes
+        </b-radio>
+        <b-radio v-model="filter" native-value="attendant_name">
+          Nome do atendente
+        </b-radio>
+        <b-radio v-model="filter" native-value="attendant_last_name">
+          Sobrenome do atendente
+        </b-radio>
+        <b-radio v-model="filter" native-value="severity"> Gravidade </b-radio>
+        <b-radio v-model="filter" native-value="search">
+          Qualquer correspondência
+        </b-radio>
+      </div>
     </div>
 
     <b-table
@@ -80,7 +91,7 @@
           :label="column.label"
           :sortable="sortable"
         >
-          <span v-if="column.field == 'attendants'">
+          <!-- <span v-if="column.field == 'attendants'">
             <span v-for="(obj, index) in props.row[column.field]" :key="index">
               <span v-for="(value, index) in obj" :key="index">
                 {{ index }}: {{ value }}
@@ -97,7 +108,8 @@
           </span>
           <span v-else>
             {{ props.row[column.field] }}
-          </span>
+          </span> -->
+          {{ props.row[column.field] }}
         </b-table-column>
         <b-table-column custom-key="actions" label="Ações">
           <b-field>
@@ -115,9 +127,6 @@
             ></b-button>
           </b-field>
         </b-table-column>
-        <!-- <b-table-column>
-        {{ search }}
-      </b-table-column> -->
       </template>
     </b-table>
   </section>
