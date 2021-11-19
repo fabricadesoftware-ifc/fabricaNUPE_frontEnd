@@ -1,11 +1,22 @@
 <template>
-  <div>
+  <div class="section is-main-section">
     <title-bar :title-stack="titleStack" />
 
     <hero-bar>
       Gerenciamento de Campus
       <template v-slot:right>
-        <router-link to="/" class="button"> Dashboard </router-link>
+        <b-button
+          v-if="!creating && !editing && !page"
+          type="is-success"
+          icon-left="plus"
+          @click="createCampus"
+        />
+        <b-button
+          v-else
+          type="is-primary"
+          icon-left="arrow-left-bold"
+          @click="reset"
+        />
       </template>
     </hero-bar>
     <card-component
@@ -13,7 +24,9 @@
       title="Câmpus"
       icon="puzzle"
     >
-      <editar-campus v-if="editing" :campus="currentCampus" />
+      <cadastro-campus v-if="editing" :campus="currentCampus" />
+      <cadastro-campus v-else-if="creating" :campus="currentCampus" />
+      <pag-individual v-else-if="page" />
       <listar-campus v-else @editCampus="editCampus" />
     </card-component>
   </div>
@@ -25,14 +38,24 @@ import TitleBar from "@/components/templates/TitleBar";
 import CardComponent from "@/components/templates/CardComponent";
 
 import ListarCampus from "@/components/campus/ListarCampus";
-import EditarCampus from "@/components/campus/EditarCampus";
+
+import CadastroCampus from "@/components/campus/CadastroCampus";
+import PagIndividual from "@/components/campus/PagIndividual";
 
 export default {
-  auth: false,
-  components: { TitleBar, HeroBar, CardComponent, EditarCampus, ListarCampus },
+  components: {
+    TitleBar,
+    HeroBar,
+    CardComponent,
+    ListarCampus,
+    CadastroCampus,
+    PagIndividual,
+  },
   data() {
     return {
       editing: false,
+      creating: false,
+      page: true,
       currentCampus: {},
     };
   },
@@ -44,8 +67,19 @@ export default {
   methods: {
     editCampus(campus) {
       this.editing = true;
-      this.currentCampus = campus;
+      Object.assign(this.currentCampus, campus);
+      this.currentCampus.institution = this.currentCampus.institution.id;
+      this.currentCampus.location = this.currentCampus.location;
       // alert(campus.general_director);
+    },
+    createCampus() {
+      this.creating = true;
+      this.editing = false;
+    },
+    reset() {
+      (this.creating = false),
+        (this.editing = false),
+        (this.currentCampus = {});
     },
   },
 };

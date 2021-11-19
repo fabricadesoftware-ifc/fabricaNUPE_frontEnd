@@ -22,11 +22,21 @@ export default {
           {
             to: "/",
             icon: "desktop-mac",
-            label: "Dashboard"
-          }
+            label: "Dashboard",
+          },
         ],
         "Administração",
         [
+          {
+            to: "/campus",
+            icon: "home",
+            label: "Campus",
+          },
+          {
+            to: "/instituicao",
+            icon: "home",
+            label: "Instituição",
+          },
           // {
           //   to: { name: "category" },
           //   label: this.$t("asideMenu.adminItems.category"),
@@ -65,19 +75,19 @@ export default {
           {
             href: "https://fabricadesoftware.ifc.edu.br",
             label: "About",
-            icon: "help-circle"
-          }
-        ]
+            icon: "help-circle",
+          },
+        ],
       ];
-    }
+    },
   },
 
   created() {
     this.asideVisible();
   },
   methods: {
-    ...mapActions("ui", ["asideVisible"])
-  }
+    ...mapActions("ui", ["asideVisible"]),
+  },
 };
 </script>
 
