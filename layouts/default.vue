@@ -37,6 +37,16 @@ export default {
             icon: "desktop-mac",
             label: "Atendimento",
           },
+          {
+            to: "/campus",
+            icon: "home",
+            label: "Campus",
+          },
+          {
+            to: "/instituicao",
+            icon: "home",
+            label: "Instituição",
+          },
           // {
           //   to: { name: "category" },
           //   label: this.$t("asideMenu.adminItems.category"),

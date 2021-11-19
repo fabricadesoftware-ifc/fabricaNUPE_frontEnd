@@ -125,7 +125,7 @@ export default {
       },
       {
         name: "defaultError",
-        message: (yload) =>
+        message: (payload) =>
           !payload.msg ? "Oops.. Erro inesperado" : payload.msg,
         options: {
           type: "error",
