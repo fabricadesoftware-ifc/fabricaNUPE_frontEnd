@@ -54,9 +54,9 @@ export default {
     strategies: {
       customStrategy: {
         _scheme: "~/plugins/schemes/customAuthScheme",
-        client_id: "wy0aG1Q2CXUUTX65egNwZi7FMStdDgk7ia81wDHN", // deve manter sempre atualizado
+        client_id: "ypdW8UdQcFh1ri2Qd6PQJ4XtxyXnF3WL9yGpwr7p", // deve manter sempre atualizado
         client_secret:
-          "LCiar7vTL1Upt61ZJ3MOhH8sv4OyECvOwP8YsmlVgLq6w6h5Jgt2dyRNHffSyoHSGJEzXIBHqQmSSENcYI7d6YsGPnBb8NtqcbIHYdURo6UDo5kDTgyNfoSMMaz7FDLe", // deve manter sempre atualizado
+          "hU9RnilF9zeJTAWznN4nZQPOORrQ9CCczmPpSFWIaGt3PX1lxB080Ai2yoomFuGyzQ4OHx7gJrfxYtZFdG8Lkr5SIowT8mE96jsuSZ7GhHBVw0KZaJNwuvsUW33k7APF", // deve manter sempre atualizado
         token: {
           property: "access",
         },
@@ -147,3 +147,4 @@ export default {
     extend(config, ctx) { },
   },
 };
+

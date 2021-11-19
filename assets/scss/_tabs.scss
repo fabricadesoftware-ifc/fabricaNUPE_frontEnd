@@ -14,3 +14,10 @@ nav.tabs {
     }
   }
 }
+
+.tabs {
+  a:hover {
+    color: $primary !important;
+    border-bottom-color: $primary !important;
+  }
+}
