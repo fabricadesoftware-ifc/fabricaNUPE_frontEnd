@@ -26,7 +26,6 @@
     >
       <cadastro-campus v-if="editing" :campus="currentCampus" />
       <cadastro-campus v-else-if="creating" :campus="currentCampus" />
-      <pag-individual v-else-if="page" />
       <listar-campus v-else @editCampus="editCampus" />
     </card-component>
   </div>
@@ -36,11 +35,8 @@
 import HeroBar from "@/components/templates/HeroBar";
 import TitleBar from "@/components/templates/TitleBar";
 import CardComponent from "@/components/templates/CardComponent";
-
 import ListarCampus from "@/components/campus/ListarCampus";
-
 import CadastroCampus from "@/components/campus/CadastroCampus";
-import PagIndividual from "@/components/campus/PagIndividual";
 
 export default {
   components: {
@@ -49,7 +45,6 @@ export default {
     CardComponent,
     ListarCampus,
     CadastroCampus,
-    PagIndividual,
   },
   data() {
     return {

@@ -47,6 +47,11 @@ export default {
             icon: "home",
             label: "Instituição",
           },
+          {
+            to: "/student",
+            icon: "home",
+            label: "Estudante",
+          },
           // {
           //   to: { name: "category" },
           //   label: this.$t("asideMenu.adminItems.category"),

@@ -1,8 +1,8 @@
 <template>
   <section class="section is-main-section">
     <div class="is-vcentered">
-      <estudantes />
-      <cadastro-estudantes />
+      <cadastro-estudantes v-if="creating" />
+      <estudantes @createStudent="createStudent" :value="value" v-else />
     </div>
   </section>
 </template>
@@ -13,10 +13,17 @@ import CadastroEstudantes from "@/components/register/estudantes/cadastro_estuda
 
 export default {
   components: { Estudantes, CadastroEstudantes },
-  auth: false,
   data() {
-    return {};
-  },  
+    return {
+      creating: false,
+      value: "",
+    };
+  },
+  methods: {
+    createStudent(value) {
+      this.creating = value;
+    },
+  },
 };
 </script>
 
