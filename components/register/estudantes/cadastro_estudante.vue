@@ -48,7 +48,11 @@
             >
           </div>
           <div class="column is-one-half">
-            <b-button type="is-primary is-outlined" expanded>
+            <b-button
+              type="is-primary is-outlined"
+              @click="cancelCreate(false)"
+              expanded
+            >
               Cancelar
             </b-button>
           </div>
@@ -77,6 +81,11 @@ export default {
 
       return dateArray.reverse().join("-");
     },
+
+    cancelCreate(value) {
+      this.$emit("createStudent", value);
+    },
+
     async createStudent() {
       var date = this.formatDate(this.ingress_date);
       try {
@@ -89,6 +98,10 @@ export default {
         });
       } catch (error) {
         console.log(error);
+        this.$buefy.toast.open({
+          message: "Ocorreu um erro!",
+          type: "is-danger",
+        });
       }
     },
   },

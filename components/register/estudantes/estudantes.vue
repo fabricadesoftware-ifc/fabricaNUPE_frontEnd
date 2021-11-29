@@ -81,6 +81,9 @@ export default {
     async fecthAllStudents() {
       this.data = await this.$axios.$get("/api/v1/student/");
     },
+    editStudent(student){
+      this.$emit("editStudent", student)
+    },
     createStudent(value) {
       this.$emit("createStudent", value);
     },
