@@ -6,7 +6,7 @@
       Gerenciamento de Campus
       <template v-slot:right>
         <b-button
-          v-if="!creating && !editing && !page"
+          v-if="!creating && !editing"
           type="is-success"
           icon-left="plus"
           @click="createCampus"
@@ -26,7 +26,7 @@
     >
       <cadastro-campus v-if="editing" :campus="currentCampus" />
       <cadastro-campus v-else-if="creating" :campus="currentCampus" />
-      <pag-individual v-else-if="page" />
+      <!-- <pag-individual v-else-if="page" /> -->
       <listar-campus v-else @editCampus="editCampus" />
     </card-component>
   </div>
@@ -40,7 +40,7 @@ import CardComponent from "@/components/templates/CardComponent";
 import ListarCampus from "@/components/campus/ListarCampus";
 
 import CadastroCampus from "@/components/campus/CadastroCampus";
-import PagIndividual from "@/components/campus/PagIndividual";
+// import PagIndividual from "@/components/campus/PagIndividual";
 
 export default {
   components: {
@@ -49,13 +49,13 @@ export default {
     CardComponent,
     ListarCampus,
     CadastroCampus,
-    PagIndividual,
+    // PagIndividual,
   },
   data() {
     return {
       editing: false,
       creating: false,
-      page: true,
+      // page: true,
       currentCampus: {},
     };
   },

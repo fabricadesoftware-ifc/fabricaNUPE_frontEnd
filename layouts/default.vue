@@ -38,6 +38,11 @@ export default {
             label: "Atendimento",
           },
           {
+            to: "/attendancereason",
+            icon: "desktop-mac",
+            label: "Razões dos Atendimentos",
+          },
+          {
             to: "/campus",
             icon: "home",
             label: "Campus",
