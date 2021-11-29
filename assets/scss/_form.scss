@@ -1,4 +1,8 @@
-.label{
+.datepicker .dropdown-content {
+  background-color: $bg-color !important;
+}
+
+.label {
   background-color: $bg-color !important;
 }
 
@@ -8,13 +12,16 @@
       margin-top: $default-padding * 0.125;
     }
   }
+
   .control {
+
     .mdi-24px.mdi-set,
     .mdi-24px.mdi:before {
       font-size: inherit;
     }
   }
 }
+
 .upload {
   .upload-draggable {
     display: block;
@@ -33,15 +40,16 @@ select {
   }
 }
 
-.switch input[type="checkbox"] + .check:before {
+.switch input[type="checkbox"]+.check:before {
   box-shadow: none;
 }
 
 .switch,
 .b-checkbox.checkbox {
   input[type="checkbox"] {
-    &:focus + .check,
-    &:focus:checked + .check {
+
+    &:focus+.check,
+    &:focus:checked+.check {
       box-shadow: none !important;
     }
   }
@@ -49,7 +57,7 @@ select {
 
 .b-checkbox.checkbox input[type="checkbox"],
 .b-radio.radio input[type="radio"] {
-  & + .check {
+  &+.check {
     border: $checkbox-border;
   }
 }
