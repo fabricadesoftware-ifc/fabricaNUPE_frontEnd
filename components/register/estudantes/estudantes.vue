@@ -84,7 +84,24 @@ export default {
     createStudent(value) {
       this.$emit("createStudent", value);
     },
-    confirmCustomDelete() {
+
+    async deleteStudent(student) {
+      try {
+        await this.$axios.$delete(`/api/v1/student/${student.registration}/`);
+        this.$buefy.toast.open({
+          message: "Estudante deletado com sucesso",
+          type: "is-primary",
+        });
+        window.location.reload();
+      } catch (error) {
+        this.$buefy.toast.open({
+          message: "Ocorreu um erro!",
+          type: "is-danger",
+        });
+      }
+    },
+
+    confirmCustomDelete(student) {
       this.$buefy.dialog.confirm({
         title: "Excluir Aluno",
         message:
@@ -92,13 +109,7 @@ export default {
         confirmText: "Excluir",
         type: "is-danger",
         hasIcon: true,
-        onConfirm: () =>
-          this.$buefy.toast.open({
-            duration: 5000,
-            message: "Aluno excluído com sucesso",
-            //position: 'is-bottom',
-            type: "is-primary",
-          }),
+        onConfirm: () => this.deleteStudent(student),
       });
     },
   },
@@ -127,52 +138,27 @@ export default {
       columns: [
         {
           field: "id",
-          label: "N° Matrícula",
+          label: "ID",
           numeric: true,
         },
         {
           field: "registration",
-          label: "Nome completo",
+          label: "Matrícula",
         },
         {
           field: "full_name",
-          label: "Curso",
+          label: "Nome completo",
         },
         {
           field: "ingress_date",
-          label: "Período",
+          label: "Data de Ingresso",
           centered: true,
         },
         {
           field: "graduated",
-          label: "Turma",
+          label: "Graduado",
         },
       ],
-      methods: {
-        alert() {
-          this.$buefy.dialog.alert("Everything looks fine!");
-        },
-        alertCustom() {
-          this.$buefy.dialog.alert({
-            title: "Title Alert",
-            message: "I have a title, a custom button and <b>HTML</b>!",
-            confirmText: "Cool!",
-          });
-        },
-        alertCustomError() {
-          this.$buefy.dialog.alert({
-            title: "Error",
-            message:
-              "Something's not good but I have a custom <b>icon</b> and <b>type</b>",
-            type: "is-danger",
-            hasIcon: true,
-            icon: "times-circle",
-            iconPack: "fa",
-            ariaRole: "alertdialog",
-            ariaModal: true,
-          });
-        },
-      },
     };
   },
 };
