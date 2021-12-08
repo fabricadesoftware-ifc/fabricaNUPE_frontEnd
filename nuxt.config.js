@@ -3,31 +3,31 @@ export default {
   head: {
     title: "NuPe - Fábrica de Software",
     meta: [{
-        charset: "utf-8"
-      },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1"
-      },
-      {
-        hid: "description",
-        name: "description",
-        content: "NuPe - Fábrica de Software",
-      },
+      charset: "utf-8"
+    },
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1"
+    },
+    {
+      hid: "description",
+      name: "description",
+      content: "NuPe - Fábrica de Software",
+    },
     ],
     link: [{
-        rel: "icon",
-        type: "image/x-icon",
-        href: "/favicon.ico"
-      },
-      {
-        rel: "dns-prefetch",
-        href: "https://fonts.gstatic.com"
-      },
-      {
-        href: "https://fonts.googleapis.com/css2?family=Nunito&display=swap",
-        rel: "stylesheet",
-      },
+      rel: "icon",
+      type: "image/x-icon",
+      href: "/favicon.ico"
+    },
+    {
+      rel: "dns-prefetch",
+      href: "https://fonts.gstatic.com"
+    },
+    {
+      href: "https://fonts.googleapis.com/css2?family=Nunito&display=swap",
+      rel: "stylesheet",
+    },
     ],
     htmlAttrs: {
       class: [
@@ -71,8 +71,8 @@ export default {
     strategies: {
       customStrategy: {
         _scheme: "~/plugins/schemes/customAuthScheme",
-        client_id: "mJ0TxI5G5XYIdhqd7jQD9aNxtxqzsnuu0sxL49IX", // deve manter sempre atualizado
-        client_secret: "pMYgALDKjT6xjG0MY8KKoPKGBocWm3F1PUNbHRwdCgGMMT0UE6WIXzM1AyW5Gl02oaJFSl9qsdjtHVhWlzi9HWgElZ9ZOkv2jn4d3DUszI9pWjkcbkheAA0Oyn3dnHx8", // deve manter sempre atualizado
+        client_id: "ogqDSIWHthQpmkZssH7Yo8ySsNxiVhlNKUEiJowf", // deve manter sempre atualizado
+        client_secret: "spLBipSBD1FHAFGkPoVkGdkya70vjk4ff4e03AJVfKIHFhNjLOnf24gUbOdvykTbErX4DgLXfVQjKVHD665EsSKDsEv51viTRoI5zvS16b49j4GNDWwPbq4YyEDWdWNm", // deve manter sempre atualizado
         token: {
           property: "access",
         },
@@ -160,6 +160,6 @@ export default {
      */
     extractCSS: true,
     transpile: ["@nuxtjs/auth"],
-    extend(config, ctx) {},
+    extend(config, ctx) { },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <b-table :data="institutions">
+  <b-table :data="institutions" :paginated="isPaginated" :per-page="perPage">
     aaa
     <template v-slot="props">
       <b-table-column label="ID"> {{ props.row["id"] }} </b-table-column>
@@ -27,6 +27,8 @@ export default {
   data() {
     return {
       data: [],
+      isPaginated: true,
+      perPage: 10,
     };
   },
   computed: {
