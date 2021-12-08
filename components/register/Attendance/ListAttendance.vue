@@ -84,33 +84,32 @@
       :scrollable="scrollable"
     >
       <template v-slot="props">
-        <b-table-column
+        <!-- <b-table-column
           v-for="(column, index) in columns"
           :key="index"
           :field="column.field"
           :label="column.label"
           :sortable="sortable"
         >
-          <!-- <span v-if="column.field == 'attendants'">
-            <span v-for="(obj, index) in props.row[column.field]" :key="index">
-              <span v-for="(value, index) in obj" :key="index">
-                {{ index }}: {{ value }}
-              </span>
-            </span>
-          </span>
-          <span v-else-if="column.field == 'student'">
-            <span
-              v-for="(value, index) in props.row[column.field]"
-              :key="index"
-            >
-              {{ index }}: {{ value }}
-            </span>
-          </span>
-          <span v-else>
-            {{ props.row[column.field] }}
-          </span> -->
           {{ props.row[column.field] }}
+        </b-table-column> -->
+        <b-table-column label="ID">
+          {{ props.row["id"] }}
         </b-table-column>
+        <b-table-column label="Status">
+          {{ props.row["status"] }}
+        </b-table-column>
+
+        <b-table-column label="Atendentes">
+          <span v-for="(index, key) in props.row['attendants']" :key="key">
+            {{ index.full_name }}
+          </span>
+        </b-table-column>
+
+        <b-table-column label="Estudante">
+          {{ props.row["student"].full_name }}
+        </b-table-column>
+
         <b-table-column custom-key="actions" label="Ações">
           <b-field>
             <b-button

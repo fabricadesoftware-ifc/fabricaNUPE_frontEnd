@@ -1,7 +1,9 @@
 <template>
-  <b-table :data="campus">
+  <b-table :data="campus" :paginated="isPaginated" :per-page="perPage">
     <template v-slot="props">
-      <b-table-column label="Nome"> {{ props.row["name"] }} </b-table-column>
+      <b-table-column label="Nome">
+        {{ props.row["name"] }}
+      </b-table-column>
       <b-table-column label="Instituição">
         {{ props.row["institution"].name }}
       </b-table-column>
@@ -30,6 +32,9 @@ export default {
   data() {
     return {
       data: [],
+      isPaginated: true,
+      perPage: 10,
+      // sortable: true,
     };
   },
   computed: {
@@ -46,7 +51,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      // window.location.reload();
+      window.location.reload();
     },
   },
   created() {
