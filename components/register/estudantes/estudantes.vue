@@ -81,8 +81,17 @@ export default {
     async fecthAllStudents() {
       this.data = await this.$axios.$get("/api/v1/student/");
     },
-    editStudent(student){
-      this.$emit("editStudent", student)
+    async editStudent(student) {
+      var data = {};
+      var responsibles = [];
+      data = await this.$axios.$get(`/api/v1/student/${student.registration}/`);
+      data["ingress_date"] = new Date(data["ingress_date"]);
+      data["responsibles"].forEach((responsibleObj) => {
+        responsibles.push(responsibleObj.id);
+      });
+      data["responsibles"] = responsibles;
+      console.log(data);
+      this.$emit("editStudent", data);
     },
     createStudent(value) {
       this.$emit("createStudent", value);

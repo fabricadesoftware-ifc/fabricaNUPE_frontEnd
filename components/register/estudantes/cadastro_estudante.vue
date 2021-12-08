@@ -78,7 +78,6 @@ export default {
     formatDate(date) {
       var dateArray = [];
       dateArray.push(date.getDate(), date.getMonth() + 1, date.getFullYear());
-
       return dateArray.reverse().join("-");
     },
 

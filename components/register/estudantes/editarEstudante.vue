@@ -9,30 +9,33 @@
         Editar estudante
       </h3>
 
-      <form>
+      <form @submit.prevent="atualizar()">
         <b-field label="Matrícula" :label-position="labelPosition">
           <b-input
-            v-model="data.registration"
+            v-model="currentStudent.registration"
             placeholder="Ex: 2019456952"
+            required
           ></b-input>
         </b-field>
         <b-field label="Data de ingresso" :label-position="labelPosition">
           <b-datepicker
             placeholder="Clique para selecionar"
             icon="calendar-today"
-            v-model="data.ingress_date"
+            v-model="currentStudent.ingress_date"
             trap-focus
             locale="pt-BR"
             width="60%"
+            required
           >
           </b-datepicker>
         </b-field>
 
         <b-field label="Conta pessoal" :label-position="labelPosition">
           <b-input
-            v-model="data.personal_info.id"
+            v-model="currentStudent.personal_info.id"
             type="text"
             placeholder="Conta pessoal"
+            required
           />
         </b-field>
 
@@ -40,7 +43,8 @@
           <b-input
             class=""
             placeholder="Campus"
-            v-model="data.academic_education_campus"
+            v-model="currentStudent.academic_education_campus"
+            required
           >
           </b-input>
         </b-field>
@@ -50,7 +54,7 @@
           :label-position="labelPosition"
         >
           <b-taginput
-            v-model="data.responsables"
+            v-model="responsibles"
             ellipsis
             icon="label"
             placeholder="Nome dos responsáveis"
@@ -92,32 +96,37 @@ export default {
       labelPosition: "on-border",
       data: [],
       currentStudent: {},
+      responsibles: [],
     };
   },
   created() {
     this.currentStudent = this.student;
-    this.getStudentInfo();
+    this.responsibles = this.currentStudent.responsibles;
+    console.log(this.currentStudent);
   },
   methods: {
-    async getStudentInfo() {
-      this.data = await this.$axios.$get(
-        `/api/v1/student/${this.student.registration}/`
-      );
-      this.formatDate();
-    },
-
     async atualizar() {
+      var date = this.formatDate(this.currentStudent.ingress_date);
       try {
-        // await this.$axios.$patch(
-        //   `/api/v1/student/${}/`,
-        //   {}
-        // );
+        await this.$axios.$patch(
+          `/api/v1/student/${this.currentStudent.registration}/`,
+          {
+            registration: this.currentStudent.registration,
+            person: this.currentStudent.personal_info.id,
+            academic_education_campus:
+              this.currentStudent.academic_education_campus,
+            responsibles: this.responsibles,
+            ingress_date: date,
+          }
+        );
+
         this.$buefy.toast.open({
           message: "Estudante atualizado com sucesso.",
           type: "is-primary",
         });
         this.$emit("cancelEdit");
-      } catch {
+      } catch (error) {
+        console.log(error);
         this.$buefy.toast.open({
           message: "Erro ao atualizar o Estudante!",
           type: "is-danger",
@@ -125,13 +134,17 @@ export default {
       }
     },
 
-    formatDate() {
-      this.data.ingress_date = new Date(this.data.ingress_date);
+    formatDate(date) {
+      var dateArray = [];
+      dateArray.push(date.getDate(), date.getMonth() + 1, date.getFullYear());
+      return dateArray.reverse().join("-");
     },
 
-    deleteSector() {
+    deleteStudent() {
       try {
-        this.$axios.$delete(`/api/v1/student/${this.currentStudent.id}/`);
+        this.$axios.$delete(
+          `/api/v1/student/${this.currentStudent.registration}/`
+        );
       } catch {
         this.$buefy.toast.open({
           message: "Erro ao deletar estudante!",
@@ -145,12 +158,16 @@ export default {
         title: "Deletar estudante",
         message:
           "Tem certeza que deseja deletar o " +
-          this.student +
+          this.currentStudent.personal_info.first_name +
+          " " +
+          this.currentStudent.personal_info.last_name +
           "? A ação é irreversível",
-        confirmText: "Deletar Setor",
+        confirmText: "Deletar Estudante",
         type: "is-danger",
         hasIcon: true,
-        onConfirm: () => {},
+        onConfirm: () => {
+          this.deleteStudent();
+        },
       });
     },
   },
