@@ -22,11 +22,41 @@ export default {
           {
             to: "/",
             icon: "desktop-mac",
-            label: "Dashboard"
-          }
+            label: "Dashboard",
+          },
         ],
         "Administração",
         [
+          {
+            to: "/sector",
+            icon: "desktop-mac",
+            label: "Setor",
+          },
+          {
+            to: "/attendance",
+            icon: "desktop-mac",
+            label: "Atendimento",
+          },
+          {
+            to: "/attendancereason",
+            icon: "desktop-mac",
+            label: "Razões dos Atendimentos",
+          },
+          {
+            to: "/campus",
+            icon: "home",
+            label: "Campus",
+          },
+          {
+            to: "/instituicao",
+            icon: "home",
+            label: "Instituição",
+          },
+          {
+            to: "/student",
+            icon: "home",
+            label: "Estudante",
+          },
           // {
           //   to: { name: "category" },
           //   label: this.$t("asideMenu.adminItems.category"),
@@ -65,19 +95,19 @@ export default {
           {
             href: "https://fabricadesoftware.ifc.edu.br",
             label: "About",
-            icon: "help-circle"
-          }
-        ]
+            icon: "help-circle",
+          },
+        ],
       ];
-    }
+    },
   },
 
   created() {
     this.asideVisible();
   },
   methods: {
-    ...mapActions("ui", ["asideVisible"])
-  }
+    ...mapActions("ui", ["asideVisible"]),
+  },
 };
 </script>
 

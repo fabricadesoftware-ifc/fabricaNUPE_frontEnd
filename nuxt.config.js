@@ -2,18 +2,28 @@ export default {
   mode: process.env.NUXT_MODE,
   head: {
     title: "NuPe - Fábrica de Software",
-    meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+    meta: [{
+        charset: "utf-8"
+      },
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1"
+      },
       {
         hid: "description",
         name: "description",
         content: "NuPe - Fábrica de Software",
       },
     ],
-    link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      { rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
+    link: [{
+        rel: "icon",
+        type: "image/x-icon",
+        href: "/favicon.ico"
+      },
+      {
+        rel: "dns-prefetch",
+        href: "https://fonts.gstatic.com"
+      },
       {
         href: "https://fonts.googleapis.com/css2?family=Nunito&display=swap",
         rel: "stylesheet",
@@ -29,9 +39,13 @@ export default {
     },
   },
 
-  loading: { color: "#fff" },
+  loading: {
+    color: "#fff"
+  },
   css: ["~/assets/scss/main.scss", "@mdi/font/css/materialdesignicons.css"],
-  styleResources: { scss: ["~/assets/scss/main.scss"] },
+  styleResources: {
+    scss: ["~/assets/scss/main.scss"]
+  },
 
   plugins: [],
   buildModules: [],
@@ -40,7 +54,10 @@ export default {
     "@nuxtjs/toast",
     "@nuxtjs/axios",
     "@nuxtjs/auth",
-    ["nuxt-buefy", { css: false, materialDesignIcons: true }],
+    ["nuxt-buefy", {
+      css: false,
+      materialDesignIcons: true
+    }],
   ],
 
   auth: {
@@ -54,9 +71,8 @@ export default {
     strategies: {
       customStrategy: {
         _scheme: "~/plugins/schemes/customAuthScheme",
-        client_id: "eHvdvFWYnyiQyC09WLR7dT9vWbXSAeK1ymd3yNsd", // deve manter sempre atualizado
-        client_secret:
-          "Fd4MMY00L9CBIJgCskHwOGBuL87mQkeMZKCJ0UH8pdDs7eYGQdP6F4GnWPmnSEaf7CeusLfqpJIuMg9xz7Wu5MDXdyzwjMC4mIGswmJx85tiLtMWWOlTBjtjVBpIKIND", // deve manter sempre atualizado
+        client_id: "mJ0TxI5G5XYIdhqd7jQD9aNxtxqzsnuu0sxL49IX", // deve manter sempre atualizado
+        client_secret: "pMYgALDKjT6xjG0MY8KKoPKGBocWm3F1PUNbHRwdCgGMMT0UE6WIXzM1AyW5Gl02oaJFSl9qsdjtHVhWlzi9HWgElZ9ZOkv2jn4d3DUszI9pWjkcbkheAA0Oyn3dnHx8", // deve manter sempre atualizado
         token: {
           property: "access",
         },
@@ -85,7 +101,7 @@ export default {
           },
           logout: {},
           user: {
-            url: "/api/v1/user/current/",
+            url: "/api/v1/account/current/",
             method: "get",
             propertyName: false,
           },
@@ -104,7 +120,7 @@ export default {
   },
 
   axios: {
-    baseURL: process.env.API_URL, // não alterar em modo de desenvolvimento
+    baseURL: 'http://localhost:8000', // não alterar em modo de desenvolvimento
     // withCredentials: true,
     // crossdomain: true
   },
@@ -144,6 +160,6 @@ export default {
      */
     extractCSS: true,
     transpile: ["@nuxtjs/auth"],
-    extend(config, ctx) { },
+    extend(config, ctx) {},
   },
 };

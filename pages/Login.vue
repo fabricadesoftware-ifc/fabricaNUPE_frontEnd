@@ -1,12 +1,12 @@
 <template>
   <section class="section is-main-section">
     <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-one-fifth">
-          <img src="@/assets/logo.webp" alt="" />
+      <div class="columns is-vcentered">
+        <div class="column has-text-centered">
+          <img src="@/assets/owl.svg" />
         </div>
-        <div class="column is-two-fifths">
-          <form-login></form-login>
+        <div class="column has-text-centered">
+          <form-login icon="" title="Acesso ao sistema"></form-login>
         </div>
       </div>
     </div>
@@ -21,22 +21,22 @@ export default {
   auth: false,
   components: { FormLogin },
 
-  data: function() {
+  data: function () {
     return {
       isComponentModalActive: true,
       showSignup: false,
       user: {},
       formProps: {
         email: "",
-        password: ""
-      }
+        password: "",
+      },
     };
   },
   methods: {
     async signin() {
       try {
         const response = await this.$auth.loginWith("local", {
-          data: this.user
+          data: this.user,
         });
         this.$auth.setUserToken(response.data.access);
         this.$auth.setToken("local", "Bearer " + response.data.access);
@@ -78,8 +78,8 @@ export default {
 
       // }
     },
-    signup() {}
-  }
+    signup() {},
+  },
 
   // computed: {
   //   ...mapState(["login"]),
@@ -116,3 +116,11 @@ export default {
   //   },
 };
 </script>
+<style>
+@media screen and (min-width: 1024px) {
+  html.has-aside-left.has-aside-expanded nav.navbar,
+  html.has-aside-left.has-aside-expanded body {
+    padding: 0 5rem;
+  }
+}
+</style>

@@ -3,13 +3,13 @@
     <title-bar :title-stack="titleStack" />
 
     <hero-bar>
-      Gerenciamento de Campus
+      Gerenciamento de Instituição
       <template v-slot:right>
         <b-button
           v-if="!creating && !editing"
           type="is-success"
           icon-left="plus"
-          @click="createCampus"
+          @click="createInstitution"
         />
         <b-button
           v-else
@@ -24,10 +24,12 @@
       title="Câmpus"
       icon="puzzle"
     >
-      <cadastro-campus v-if="editing" :campus="currentCampus" />
-      <cadastro-campus v-else-if="creating" :campus="currentCampus" />
-      <!-- <pag-individual v-else-if="page" /> -->
-      <listar-campus v-else @editCampus="editCampus" />
+      <cadastro-instituicao v-if="editing" :institution="currentInstitution" />
+      <cadastro-instituicao
+        v-else-if="creating"
+        :institution="currentInstitution"
+      />
+      <listar-instituicao v-else @editInstitution="editInstitution" />
     </card-component>
   </div>
 </template>
@@ -36,48 +38,43 @@
 import HeroBar from "@/components/templates/HeroBar";
 import TitleBar from "@/components/templates/TitleBar";
 import CardComponent from "@/components/templates/CardComponent";
-import ListarCampus from "@/components/campus/ListarCampus";
-import CadastroCampus from "@/components/campus/CadastroCampus";
-// import PagIndividual from "@/components/campus/PagIndividual";
+
+import CadastroInstituicao from "@/components/instituicao/CadastroInstituicao";
+import ListarInstituicao from "../components/instituicao/ListarInstituicao.vue";
 
 export default {
   components: {
     TitleBar,
     HeroBar,
     CardComponent,
-    ListarCampus,
-    CadastroCampus,
-    // PagIndividual,
+    ListarInstituicao,
+    CadastroInstituicao,
   },
   data() {
     return {
       editing: false,
       creating: false,
-      // page: true,
-      currentCampus: {},
+      currentInstitution: {},
     };
   },
   computed: {
     titleStack() {
-      return ["Admin", "Listagem de Campus"];
+      return ["Admin", "Listagem de Instituição"];
     },
   },
   methods: {
-    editCampus(campus) {
+    editInstitution(institution) {
       this.editing = true;
-      Object.assign(this.currentCampus, campus);
-      this.currentCampus.institution = this.currentCampus.institution.id;
-      this.currentCampus.location = this.currentCampus.location;
-      // alert(campus.general_director);
+      Object.assign(this.currentInstitution, institution);
     },
-    createCampus() {
+    createInstitution() {
       this.creating = true;
       this.editing = false;
     },
     reset() {
       (this.creating = false),
         (this.editing = false),
-        (this.currentCampus = {});
+        (this.currentInstitution = {});
     },
   },
 };
