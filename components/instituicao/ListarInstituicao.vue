@@ -1,63 +1,53 @@
 <template>
-  <b-table :data="data" :columns="columns"></b-table>
+  <b-table :data="institutions">
+    aaa
+    <template v-slot="props">
+      <b-table-column label="ID"> {{ props.row["id"] }} </b-table-column>
+      <b-table-column label="Nome"> {{ props.row["name"] }}</b-table-column>
+
+      <b-table-column custom-key="actions" label="Ações">
+        <b-button
+          type="is-primary"
+          icon-left="pencil"
+          @click="editInstitution(props.row)"
+        ></b-button>
+        <b-button
+          type="is-danger"
+          icon-left="delete"
+          @click="deleteInstitution(props.row)"
+        ></b-button>
+      </b-table-column>
+    </template>
+  </b-table>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
-      data: [
-        {
-          cnpj: "10.635.424/0003-48",
-          campus_name: "Araquari",
-          institution_name: "IFC - Instituto Federal Catarinense",
-          general_director: "Cleder Alexandre Somensi",
-        },
-        {
-          cnpj: "10.635.424/0003-48",
-          campus_name: "Araquari",
-          institution_name: "IFC - Instituto Federal Catarinense",
-          general_director: "Cleder Alexandre Somensi",
-        },
-        {
-          cnpj: "10.635.424/0003-48",
-          campus_name: "Araquari",
-          institution_name: "IFC - Instituto Federal Catarinense",
-          general_director: "Cleder Alexandre Somensi",
-        },
-        {
-          cnpj: "10.635.424/0003-48",
-          campus_name: "Araquari",
-          institution_name: "IFC - Instituto Federal Catarinense",
-          general_director: "Cleder Alexandre Somensi",
-        },
-        {
-          cnpj: "10.635.424/0003-48",
-          campus_name: "Araquari",
-          institution_name: "IFC - Instituto Federal Catarinense",
-          general_director: "Cleder Alexandre Somensi",
-        },
-      ],
-      columns: [
-        {
-          field: "cnpj",
-          label: "CNPJ",
-          width: "40",
-        },
-        {
-          field: "campus_name",
-          label: "Campus",
-        },
-        {
-          field: "institution_name",
-          label: "Instituição",
-        },
-        {
-          field: "general_director",
-          label: "Diretor Geral",
-        },
-      ],
+      data: [],
     };
+  },
+  computed: {
+    ...mapState("institution", ["institutions"]),
+  },
+  methods: {
+    ...mapActions("institution", ["fetchAllInstitutions"]),
+    editInstitution(institution) {
+      this.$emit("editInstitution", institution);
+    },
+    deleteInstitution(institution) {
+      try {
+        this.$axios.$delete(`/api/v1/institution/${institution.id}/`);
+      } catch (error) {
+        console.log(error);
+      }
+      window.location.reload();
+    },
+  },
+  created() {
+    this.fetchAllInstitutions();
   },
 };
 </script>

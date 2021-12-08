@@ -3,17 +3,17 @@
     <title-bar :title-stack="titleStack" />
 
     <hero-bar>
-      Edição de Campus
+      Listagem de Cursos
       <template v-slot:right>
         <router-link to="/" class="button"> Dashboard </router-link>
       </template>
     </hero-bar>
     <card-component
       class="has-table has-mobile-sort-spaced"
-      title="Câmpus"
+      title="Cursos"
       icon="puzzle"
     >
-      <editar-campus :valor="valor"/>
+      <listagem-cursos />
     </card-component>
   </div>
 </template>
@@ -23,21 +23,15 @@ import HeroBar from "@/components/templates/HeroBar";
 import TitleBar from "@/components/templates/TitleBar";
 import CardComponent from "@/components/templates/CardComponent";
 
-import EditarCampus from "@/components/campus/EditarCampus";
+import ListagemCursos from "@/components/curso/ListagemCursos";
 
 export default {
   auth: false,
-  components: { EditarCampus, TitleBar, HeroBar, CardComponent },
-  data(){
-    return{
-      valor:{
-        nome:"Araquari",cnpj:"11.111.111.11",
-      }
-    }
-  },
+  components: { ListagemCursos, TitleBar, HeroBar, CardComponent },
+
   computed: {
     titleStack() {
-      return ["Admin", "Edição de Campus"];
+      return ["Admin", "Listagem de Cursos"];
     },
   },
 };

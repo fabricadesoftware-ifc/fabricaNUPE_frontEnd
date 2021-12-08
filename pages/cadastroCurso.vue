@@ -3,17 +3,17 @@
     <title-bar :title-stack="titleStack" />
 
     <hero-bar>
-      Listagem de Instituição
+      Cadastro de Curso
       <template v-slot:right>
         <router-link to="/" class="button"> Dashboard </router-link>
       </template>
     </hero-bar>
     <card-component
       class="has-table has-mobile-sort-spaced"
-      title="Câmpus"
+      title="Curso"
       icon="puzzle"
     >
-      <listar-instituicao />
+      <cadastro-curso />
     </card-component>
   </div>
 </template>
@@ -23,15 +23,15 @@ import HeroBar from "@/components/templates/HeroBar";
 import TitleBar from "@/components/templates/TitleBar";
 import CardComponent from "@/components/templates/CardComponent";
 
-import ListarInstituicao from "@/components/instituicao/ListarInstituicao";
+import CadastroCurso from "@/components/curso/CadastroCurso";
 
 export default {
   auth: false,
-  components: { ListarInstituicao, TitleBar, HeroBar, CardComponent },
+  components: { CadastroCurso, TitleBar, HeroBar, CardComponent },
 
   computed: {
     titleStack() {
-      return ["Admin", "Listagem de Instituição"];
+      return ["Admin", "Cadastro de Curso"];
     },
   },
 };
