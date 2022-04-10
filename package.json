@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Frontend para a API NuPe, desenvolvida pela Fabrica de Software.",
   "author": "jorgebeeck",
+  "engines": {
+    "node": "16.x"
+  },
   "private": true,
   "scripts": {
     "dev": "nuxt --hostname 0 --port 3000",
