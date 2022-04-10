@@ -26,6 +26,7 @@ import CreateSector from "@/components/register/Sector/CreateSector";
 import SelectSector from "@/components/register/Sector/SelectSector";
 export default {
   components: { ListSector, CreateSector, SelectSector },
+  auth: false,
   data() {
     return {
       editing: false,

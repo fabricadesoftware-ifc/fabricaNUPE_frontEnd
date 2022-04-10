@@ -48,6 +48,7 @@ export default {
     ReportAttendance,
     SelectAttendance,
   },
+  auth: false,
   data() {
     return {
       editing: false,

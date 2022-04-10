@@ -1,0 +1,7 @@
+deploy:
+  stage: deploy
+  image: ilyasemenov/gitlab-ci-git-push
+  script:
+    - git-push ssh://dokku@app2.fabricadesoftware.ifc.edu.br:1022/nupe-frontend
+  only:
+    - master
