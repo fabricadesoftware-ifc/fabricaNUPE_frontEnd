@@ -71,8 +71,8 @@ export default {
     strategies: {
       customStrategy: {
         _scheme: "~/plugins/schemes/customAuthScheme",
-        client_id: "mJ0TxI5G5XYIdhqd7jQD9aNxtxqzsnuu0sxL49IX", // deve manter sempre atualizado
-        client_secret: "pMYgALDKjT6xjG0MY8KKoPKGBocWm3F1PUNbHRwdCgGMMT0UE6WIXzM1AyW5Gl02oaJFSl9qsdjtHVhWlzi9HWgElZ9ZOkv2jn4d3DUszI9pWjkcbkheAA0Oyn3dnHx8", // deve manter sempre atualizado
+        client_id: "O7BOuuhAhOGLbo6Y6fQ5DhyUMoP75oNBjini2JjW", // deve manter sempre atualizado
+        client_secret: "4M8AgFyZvvI4zgRkyBEj0wUTfoR5CYZIfxzoI7NEjvEXPKc4f55cFN2LM0CJ1r6OxfmpZYEuA20uKLRBtFWu207nLhbZzorWpMlKXqmafcG6XbYDxi9GNbLh2so0yBUI", // deve manter sempre atualizado
         token: {
           property: "access",
         },
@@ -120,7 +120,7 @@ export default {
   },
 
   axios: {
-    baseURL: 'http://localhost:8000', // não alterar em modo de desenvolvimento
+    baseURL: 'http://localhost:19003', // não alterar em modo de desenvolvimento
     // withCredentials: true,
     // crossdomain: true
   },
